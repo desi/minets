@@ -10,6 +10,8 @@ class CustomStorage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      contractName: '',
+      contractCode: '',
       svgContent: '',
       contract: '',
       slot: '',
@@ -18,28 +20,35 @@ class CustomStorage extends Component {
     };
     this.generateContractLayout = this.generateContractLayout.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.handleStorageChange = this.handleStorageChange.bind(this);
+    this.handleStorageSubmit = this.handleStorageSubmit.bind(this);
   }
 
-  generateContractLayout() {
-    exec('sol2uml storage src/anvil/contract-layouts/Dai.sol -c Dai', (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error: ${error.message}`);
+  generateContractLayout(contractCode, contractName) {
+    const solFilePath = './contract.sol'; // Provide the path to a temporary directory
+    fs.writeFile(solFilePath, contractCode, (err) => {
+      if (err) {
+        console.error(`Error writing contract code to file: ${err}`);
         return;
       }
-      if (stderr) {
-        console.error(`stderr: ${stderr}`);
-        return;
-      }
-      // The stdout should contain the SVG content
-      const pathMatch = stdout.match(/\/.+/);
-      if (pathMatch && pathMatch.length > 0) {
-        const filePath = pathMatch[0];
-        this.readSVGFile(filePath);
-      } else {
-        console.error(`Error: Path not found in output: ${stdout}`);
-      }
-      console.log("GILEEE", pathMatch)
+      exec(`sol2uml storage ${solFilePath} -c ${contractName}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`stderr: ${stderr}`);
+          return;
+        }
+        // The stdout should contain the SVG content
+        const pathMatch = stdout.match(/\/.+/);
+        if (pathMatch && pathMatch.length > 0) {
+          const filePath = pathMatch[0];
+          this.readSVGFile(filePath);
+        } else {
+          console.error(`Error: Path not found in output: ${stdout}`);
+        }
+      });
     });
   }
 
@@ -62,21 +71,37 @@ class CustomStorage extends Component {
     this.setState({ contract: '', slot: '', address: '', value: '' });
   }
 
+  handleStorageChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleStorageSubmit(e) {
+    e.preventDefault();
+    const { contractCode, contractName } = this.state;
+    this.generateContractLayout(contractCode, contractName);
+  }
+
   render() {
     const { svgContent, contract, slot, address, value } = this.state;
 
     return (
       <div className="CustomStorage">
         <h1>Custom Storage</h1>
-        <div className="input">
-          <button onClick={this.generateContractLayout}>Generate Layout</button>
-          
-        </div>
+        <h2>Step 1: Get the Contract Storage Layout</h2>
+        <form className="storageLayout" onSubmit={this.handleStorageSubmit}>
+          <label htmlFor="contractCode">Contract Code:</label>
+          <textarea id="contractCode" name="contractCode" value={this.state.contractCode} onChange={this.handleStorageChange} />
+          <label htmlFor="contractName">Contract Name:</label>
+          <textarea id="contractName" name="contractName" value={this.state.contractName} onChange={this.handleStorageChange} />
+          <button type="submit">Generate Layout</button>
+        </form>
         <div className='svg'>
           {svgContent && (
               <img src={`data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}`} alt="Contract Layout" />
             )}
         </div>
+        <h2>Step 2: Set the Storage values</h2>
+        <p>blabla ba</p>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="contract">Contract Address:</label>

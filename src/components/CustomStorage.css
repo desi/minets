@@ -16,6 +16,26 @@
     margin-bottom: 50px;
 }
 
+.CustomStorage .storageLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.CustomStorage .storageLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.CustomStorage .storageLayout textarea,
+.CustomStorage .storageLayout input[type="text"] {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+
 .CustomStorage button {
     margin-left: 150px;
     margin-bottom: 50px;
