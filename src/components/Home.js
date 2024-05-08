@@ -155,7 +155,7 @@ class Home extends Component {
             {mainnetStarted ? 
             <p>Mainnet with chainId 1 Running on port 8545</p>
              :
-            <p>Mainnet with chainId 1 Running on port 8545</p>}
+            <p>Polygon with chainId 137 Running on port 8546</p>}
 
             <h1>Accounts</h1>
             <h3>Default SRP: {DEFAULT_SRP}</h3>
