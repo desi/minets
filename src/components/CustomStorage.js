@@ -13,13 +13,14 @@ class CustomStorage extends Component {
       contractName: '',
       contractCode: '',
       svgContent: '',
-      contract: '',
+      contractAddress: '',
       slot: '',
       address: '',
       value: ''
     };
     this.generateContractLayout = this.generateContractLayout.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLayoutChange = this.handleLayoutChange.bind(this);
+    this.handleLayoutSubmit = this.handleLayoutSubmit.bind(this);
     this.handleStorageChange = this.handleStorageChange.bind(this);
     this.handleStorageSubmit = this.handleStorageSubmit.bind(this);
   }
@@ -62,37 +63,42 @@ class CustomStorage extends Component {
     });
   }
 
-  handleSubmit(e) {
+  handleStorageSubmit(e) {
     e.preventDefault();
-    const { contract, slot, address, value } = this.state;
-    setCustomStorageBalanceOf(anvil, contract, slot, address, value)
-    console.log('Submitting:', contract, slot, address, value);
+    const { contractAddress, slot, address, value } = this.state;
+    setCustomStorageBalanceOf(anvil, contractAddress, slot, address, value)
+    console.log('Submitting:', contractAddress, slot, address, value);
     // Clear form fields
-    this.setState({ contract: '', slot: '', address: '', value: '' });
+    this.setState({ contractAddress: '', slot: '', address: '', value: '' });
   }
 
-  handleStorageChange(e) {
+  handleLayoutChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleStorageSubmit(e) {
+  handleLayoutSubmit(e) {
     e.preventDefault();
     const { contractCode, contractName } = this.state;
     this.generateContractLayout(contractCode, contractName);
   }
 
+  handleStorageChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
   render() {
-    const { svgContent, contract, slot, address, value } = this.state;
+    const { svgContent, contractAddress, slot, address, value } = this.state;
 
     return (
       <div className="CustomStorage">
         <h1>Custom Storage</h1>
-        <h2>Step 1: Get the Contract Storage Layout</h2>
-        <form className="storageLayout" onSubmit={this.handleStorageSubmit}>
+        <h2>Get the Contract Storage Layout</h2>
+        <form className="storageLayout" onSubmit={this.handleLayoutSubmit}>
           <label htmlFor="contractCode">Contract Code:</label>
-          <textarea id="contractCode" name="contractCode" value={this.state.contractCode} onChange={this.handleStorageChange} />
+          <textarea id="contractCode" name="contractCode" value={this.state.contractCode} onChange={this.handleLayoutChange} />
           <label htmlFor="contractName">Contract Name:</label>
-          <textarea id="contractName" name="contractName" value={this.state.contractName} onChange={this.handleStorageChange} />
+          <textarea id="contractName" name="contractName" value={this.state.contractName} onChange={this.handleLayoutChange} />
           <button type="submit">Generate Layout</button>
         </form>
         <div className='svg'>
@@ -100,16 +106,17 @@ class CustomStorage extends Component {
               <img src={`data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}`} alt="Contract Layout" />
             )}
         </div>
-        <h2>Step 2: Set the Storage values</h2>
+        <h2>Set the Storage values</h2>
         <p>blabla ba</p>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleStorageSubmit}>
           <div>
-            <label htmlFor="contract">Contract Address:</label>
+            <label htmlFor="contractAddress">Contract Address:</label>
             <input
               type="text"
-              id="contract"
-              value={contract}
-              onChange={(e) => this.setState({ contract: e.target.value })}
+              id="contractAddress"
+              name="contractAddress"
+              value={contractAddress}
+              onChange={this.handleStorageChange}
               required
             />
           </div>
@@ -118,8 +125,9 @@ class CustomStorage extends Component {
             <input
               type="text"
               id="slot"
+              name="slot"
               value={slot}
-              onChange={(e) => this.setState({ slot: e.target.value })}
+              onChange={this.handleStorageChange}
               required
             />
           </div>
@@ -128,8 +136,9 @@ class CustomStorage extends Component {
             <input
               type="text"
               id="address"
+              name="address"
               value={address}
-              onChange={(e) => this.setState({ address: e.target.value })}
+              onChange={this.handleStorageChange}
               required
             />
           </div>
@@ -138,12 +147,13 @@ class CustomStorage extends Component {
             <input
               type="text"
               id="value"
+              name="value"
               value={value}
-              onChange={(e) => this.setState({ value: e.target.value })}
+              onChange={this.handleStorageChange}
               required
             />
           </div>
-          <button type="submit">Set Custom Storage Balance</button>
+          <button type="submit">Set Custom Storage</button>
         </form>
       </div>
     );
