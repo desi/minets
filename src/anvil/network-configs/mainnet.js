@@ -34,6 +34,28 @@ async function startServer() {
   return anvil;
 }
 
+async function setCustomStorageBalanceOf(anvil, contract, slot, address, value) {
+  const testClient = anvil.getProvider().testClient;
+  
+  const addressWithoutPrefix = address.substring(2).toLowerCase();
+    const formatSlot = `00000000000000000000000${addressWithoutPrefix}000000000000000000000000000000000000000000000000000000000000000${slot}`;
+    const hashedSlot = keccak256(hexToString(formatSlot));
+    const paddedValue = value.padStart(64, '0');
+    const storageValue = `0x${hashedSlot}${paddedValue}`;
+    
+  console.log(hashedSlot)
+  console.log(storageValue)
+    try {
+      await testClient.setStorageAt({
+        address: contract,
+        index: hashedSlot,
+        value: storageValue
+      })
+    } catch (e) {
+      console.log(e)
+    }
+    return { slot: hashedSlot, value: storageValue };
+}
 
 async function setStorage(anvil, addressToSeed) {
   const testClient = anvil.getProvider().testClient;
@@ -116,4 +138,4 @@ async function stopServer(anvil) {
   console.log('Anvil server stopped successfully.');
 }
 
-module.exports = { startServer, stopServer, setStorage };
+module.exports = { startServer, stopServer, setStorage, setCustomStorageBalanceOf };

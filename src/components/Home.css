@@ -3,6 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
 }
 
 .Home h1 {
