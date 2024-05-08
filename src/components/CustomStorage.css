@@ -1,0 +1,91 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+.CustomStorage {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: montserrat, arial, verdana;
+}
+
+.CustomStorage h1 {
+    margin-left: 150px;
+    transition: margin-left 0.3s ease;
+    font-weight: 300;
+    font-size: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.CustomStorage .storageLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.CustomStorage .storageLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.CustomStorage .storageLayout textarea,
+.CustomStorage .storageLayout input[type="text"] {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+
+.CustomStorage button {
+    margin-left: 150px;
+    margin-bottom: 50px;
+    background-color: #FF6B8B;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.CustomStorage img {
+    margin-left: 20px;
+    margin-top: 30px;
+}
+
+
+.CustomStorage form {
+  width: 400px;
+  margin: 50px auto;
+  text-align: center;
+  position: relative;
+  background: white;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 80%;
+  margin: 0 10%;
+  position: relative;
+}
+
+
+/*inputs*/
+.CustomStorage form input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: montserrat;
+  color: #2C3E50;
+  font-size: 13px;
+}
+
+.CustomStorage form button {
+    margin-left: 10px;
+    margin-bottom: 50px;
+}
