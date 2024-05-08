@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import './Home.css';
 
 const {
-  setStorage,
-  stopServer,
+  setDefaultStorage
+} = require('../anvil/network-configs/utils');
+
+const {
+  getMainnetContractStorages,
+  MAINNET_CONFIG,
 } = require('../anvil/network-configs/mainnet');
+
+const {
+  getPolygonContractStorages,
+  POLYGON_CONFIG,
+} = require('../anvil/network-configs/polygon');
 
 const LocalNetwork = require('../anvil/anvil-setup');
 
 const DEFAULT_SRP = "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
-const options = {
-  blockTime: 2,
-  chainId: 1,
-  port: 8545,
-  forkUrl: `https://mainnet.infura.io/v3/b6bf7d3508c941499b10025c0776eaf8`,
-  forkBlockNumber: 19460144,
-  mnemonic: DEFAULT_SRP,
-  silent: false,
-};
 
 let anvil;
 
@@ -26,13 +26,15 @@ class Home extends Component {
     super(props);
     this.state = {
       accounts: [],
-      anvilStarted: false,
+      mainnetStarted: false,
+      polygonStarted: false,
       accountsSeeded: {},
       customAccountAddress: '',
       customAccountSeeded: false,
 
     }
-    this.startAnvil = this.startAnvil.bind(this);
+    this.startMainnet = this.startMainnet.bind(this);
+    this.startPolygon = this.startPolygon.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccounts = this.seedAccounts.bind(this);
     this.stopAnvil = this.stopAnvil.bind(this);
@@ -41,17 +43,30 @@ class Home extends Component {
   }
 
 
-  startAnvil = async () => {
+  startMainnet = async () => {
     try {
       console.log("starting anvil server from home.js");
       anvil = new LocalNetwork();
-      await anvil.start(options);
+      await anvil.start(MAINNET_CONFIG);
       console.log('Anvil server started successfully.');
       await this.getAccounts(anvil);
-      this.setState({ anvilStarted: true });
+      this.setState({ mainnetStarted: true });
     } catch (error) {
       console.error('Error connecting to Anvil:', error);
   }};
+
+  startPolygon = async () => {
+    try {
+      console.log("Starting Polygon Anvil server from home.js");
+      anvil = new LocalNetwork();
+      await anvil.start(POLYGON_CONFIG);
+      console.log('Polygon Anvil server started successfully.');
+      await this.getAccounts(anvil); // You might need to implement getAccounts method for Polygon
+      this.setState({ polygonStarted: true }); // Update the state to indicate Polygon server started
+    } catch (error) {
+      console.error('Error connecting to Polygon Anvil:', error);
+    }
+  };
 
   getAccounts = async () => {
     try {
@@ -68,7 +83,9 @@ class Home extends Component {
       const { accounts } = this.state;
       const accountsSeeded = {};
       for (const account of accounts) {
-        await setStorage(anvil, account);
+        const addressWithoutPrefix = account.substring(2).toLowerCase();
+        const contracts = getMainnetContractStorages(addressWithoutPrefix);
+        await setDefaultStorage(anvil, account, contracts);
         accountsSeeded[account] = true;
       }
       this.setState({ accountsSeeded });
@@ -85,7 +102,9 @@ class Home extends Component {
   seedCustomAccount() {
     const { customAccountAddress } = this.state;
     if (customAccountAddress.trim() !== '') {
-      setStorage(anvil, customAccountAddress)
+      const addressWithoutPrefix = customAccountAddress.substring(2).toLowerCase();
+      const contracts = getMainnetContractStorages(addressWithoutPrefix);
+      setDefaultStorage(anvil, customAccountAddress, contracts)
         .then(() => {
           this.setState({ customAccountSeeded: true });
           console.log(`Custom account ${customAccountAddress} seeded successfully.`);
@@ -102,25 +121,42 @@ class Home extends Component {
     try {
       await anvil.quit();
       console.log('Anvil server stopped successfully.');
-      this.setState({ anvilStarted: false, accounts: [] });
+      this.setState({ mainnetStarted: false, accounts: [] });
     } catch (error) {
       console.error('Error stopping Anvil:', error);
     }
   }
 
   render() {
-    const { anvilStarted, accounts, accountsSeeded, customAccountAddress, customAccountSeeded } = this.state;
+    const { 
+      mainnetStarted,
+      polygonStarted,
+      accounts,
+      accountsSeeded,
+      customAccountAddress,
+      customAccountSeeded,
+    } = this.state;
 
     return (
       <div className="Home">
-        {!anvilStarted ? (
+        {!mainnetStarted && !polygonStarted ? (
           <section className="connect-section">
-            <button className="connect-btn" onClick={this.startAnvil}>
-              Spin up Minets!
+            <h1>Minets!</h1>
+            <button className="connect-btn" onClick={this.startMainnet}>
+              Spin up Mainnet!
+            </button>
+              <button className="connect-btn" onClick={this.startPolygon}>
+              Spin up Polygon!
             </button>
           </section>
         ) : (
           <section>
+            
+            {mainnetStarted ? 
+            <p>Mainnet with chainId 1 Running on port 8545</p>
+             :
+            <p>Mainnet with chainId 1 Running on port 8545</p>}
+
             <h1>Accounts</h1>
             <h3>Default SRP: {DEFAULT_SRP}</h3>
             <ul>
