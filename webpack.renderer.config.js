@@ -10,4 +10,12 @@ module.exports = {
   module: {
     rules,
   },
+  resolve: {
+    fallback: {
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util/'),
+      path: require.resolve('path-browserify'),
+    }
+  },
+  target: 'electron-renderer'
 };

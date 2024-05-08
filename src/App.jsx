@@ -1,5 +1,11 @@
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Home from "./components/Home";
 
-const root = createRoot(document.body);
-root.render(<h2>Hello from React!</h2>);
+function App() {
+  return (
+    <Home />
+  );
+}
+
+export default App;

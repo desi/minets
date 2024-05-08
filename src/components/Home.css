@@ -1,0 +1,85 @@
+.Home {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Home h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 50px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.Home h2 {
+  margin-top: 90px;
+  font-weight: 300;
+  font-size: 40px;
+}
+
+.Home .connect-section {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 50vh;
+  min-width: 40vh;
+  max-width: 54vh;
+  text-align: center;
+}
+
+.Home .connect-btn {
+  background-color: #FF6B8B;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Home .connect-btn:hover {
+  background-color: #FF8FA3;
+}
+
+.Home .seed-btn {
+  background-color: #3F8EFC;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Home .seed-btn:hover {
+  background-color: #3F8EFC;
+  color: #fff;
+}
+
+.Home .add-network-btn {
+  background-color: #3F8EFC;;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Home .add-network-btn:hover {
+  background-color: #3F8EFC;
+  color: #fff;
+}
+
+.Home .selected-address {
+  margin-top: 20px;
+  font-size: 18px;
+}
