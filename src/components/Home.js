@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 
+
 const {
   setDefaultStorage
 } = require('../anvil/network-configs/utils');
@@ -38,10 +39,10 @@ class Home extends Component {
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccounts = this.seedAccounts.bind(this);
     this.stopAnvil = this.stopAnvil.bind(this);
+    this.getBalance = this.getBalance.bind(this);
     this.handleCustomAccountChange = this.handleCustomAccountChange.bind(this);
     this.seedCustomAccount = this.seedCustomAccount.bind(this);
   }
-
 
   startMainnet = async () => {
     try {
@@ -82,11 +83,12 @@ class Home extends Component {
     try {
       const { accounts } = this.state;
       const accountsSeeded = {};
+      let accountBalance;
       for (const account of accounts) {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
         const contracts = getMainnetContractStorages(addressWithoutPrefix);
         await setDefaultStorage(anvil, account, contracts);
-        accountsSeeded[account] = true;
+        accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
       this.setState({ accountsSeeded });
       console.log('Accounts seeded:', accountsSeeded);
@@ -127,6 +129,16 @@ class Home extends Component {
     }
   }
 
+  getBalance = async (address) => {
+    try {
+      const balance = await anvil.getBalance(address);
+      console.log(`Balance of ${address}:`, balance);
+      return balance;
+    } catch (error) {
+      console.error('Error getting balance:', error);
+    }
+  }
+
   render() {
     const { 
       mainnetStarted,
@@ -151,22 +163,30 @@ class Home extends Component {
           </section>
         ) : (
           <section>
-            
             {mainnetStarted ? 
             <p>Mainnet with chainId 1 Running on port 8545</p>
              :
             <p>Polygon with chainId 137 Running on port 8546</p>}
 
-            <h1>Accounts</h1>
             <h3>Default SRP: {DEFAULT_SRP}</h3>
-            <ul>
-              {accounts.map((account, index) => (
-                <li key={index}>
-                  {account}
-                  {accountsSeeded[account] && <span style={{ color: '#4CE0B3' }}>✓</span>}
-                </li>
-              ))}
-            </ul>
+
+            <h1>Accounts</h1>
+            <table>
+              <tbody>
+                <tr>
+                    <th>Account</th>
+                    <th>Balance</th>
+                </tr>
+                {accounts.map((account, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>{account}</td>
+                            <td>{accountsSeeded[account]}</td>
+                        </tr>
+                    )
+                })}
+              </tbody>
+            </table>
             <button className="seed-btn" onClick={() => this.seedAccounts(anvil)}>
               Seed Accounts
             </button>

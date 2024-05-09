@@ -106,8 +106,9 @@ class CustomStorage extends Component {
               <img src={`data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}`} alt="Contract Layout" />
             )}
         </div>
+
         <h2>Set the Storage values</h2>
-        <p>blabla ba</p>
+        <p>INSTRUCTIONS GO HERE</p>
         <form onSubmit={this.handleStorageSubmit}>
           <div>
             <label htmlFor="contractAddress">Contract Address:</label>

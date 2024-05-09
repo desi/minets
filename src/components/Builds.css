@@ -1,4 +1,4 @@
-.Home {
+.Builds {
   min-height: 50vh;
   display: flex;
   justify-content: center;
@@ -8,7 +8,7 @@
   transition: margin-left 0.3s ease;
 }
 
-.Home h1 {
+.Builds h1 {
   margin: 0;
   font-weight: 300;
   font-size: 50px;
@@ -16,23 +16,13 @@
   margin-bottom: 50px;
 }
 
-.Home h2 {
+.Builds h2 {
   margin-top: 90px;
   font-weight: 300;
   font-size: 40px;
 }
 
-.Home table {
-  width: 100%;
-  border-collapse: separate;
-  margin-top: 20px;
-}
-
-.Home tr:nth-child(even) {
-  background-color: #807d7d;
-}
-
-.Home .connect-section {
+.Builds .connect-section {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 10px;
@@ -42,7 +32,7 @@
   text-align: center;
 }
 
-.Home .connect-btn {
+.Builds .connect-btn {
   background-color: #FF6B8B;
   color: #fff;
   border: none;
@@ -54,11 +44,11 @@
   transition: background-color 0.3s ease;
 }
 
-.Home .connect-btn:hover {
+.Builds .connect-btn:hover {
   background-color: #FF8FA3;
 }
 
-.Home .seed-btn {
+.Builds .seed-btn {
   background-color: #3F8EFC;
   color: black;
   border: none;
@@ -70,14 +60,14 @@
   transition: background-color 0.3s ease;
 }
 
-.Home .seed-btn:hover {
+.Builds .seed-btn:hover {
   background-color: #3F8EFC;
   color: #fff;
 }
 
-.Home .disconnect-btn {
-  background-color: #FF6B8B;
-  color: #fff;
+.Builds .disconnect-btn {
+  background-color: #3F8EFC;
+  color: black;
   border: none;
   padding: 10px 20px;
   font-size: 20px;
@@ -87,12 +77,12 @@
   transition: background-color 0.3s ease;
 }
 
-.Home .disconnect-btn:hover {
-  background-color: #FF8FA3;
+.Builds .disconnect-btn:hover {
+  background-color: #3F8EFC;
   color: #fff;
 }
 
-.Home .add-network-btn {
+.Builds .add-network-btn {
   background-color: #3F8EFC;;
   color: black;
   border: none;
@@ -104,56 +94,21 @@
   transition: background-color 0.3s ease;
 }
 
-.Home .add-network-btn:hover {
+.Builds .add-network-btn:hover {
   background-color: #3F8EFC;
   color: #fff;
 }
 
-.Home .selected-address {
+.Builds .selected-address {
   margin-top: 20px;
   font-size: 18px;
 }
 
-.Home li span {
+.Builds li span {
   font-size: 25px;
   padding-left: 10px;
 }
 
-.Home li {
+.Builds li {
   padding-bottom: 15px;
-}
-
-
-.Home .custom-account {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-}
-
-.Home .custom-account textarea,
-.Home .custom-account input[type="text"] {
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-  font-size: 20px;
-}
-
-.Home .custom-account button {
-  background-color: #3F8EFC;;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-}
-
-.Home .custom-account button:hover {
-  background-color: #3F8EFC;
-  color: #fff;
 }

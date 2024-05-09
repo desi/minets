@@ -42,10 +42,13 @@
   "dependencies": {
     "@ethersproject/keccak256": "^5.7.0",
     "@viem/anvil": "^0.0.10",
+    "axios": "^1.6.8",
+    "dompurify": "^3.1.2",
     "electron-squirrel-startup": "^1.0.0",
     "path-browserify": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
     "sol2uml": "^2.5.20",
     "stream-browserify": "^3.0.0",

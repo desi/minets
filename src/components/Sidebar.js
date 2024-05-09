@@ -13,6 +13,9 @@ function Sidebar() {
         <li>
           <Link to="/contract-layout">Custom Storage</Link>
         </li>
+        <li>
+          <Link to="/builds-layout">Builds</Link>
+        </li>
       </ul>
     </div>
   );
