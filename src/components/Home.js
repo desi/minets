@@ -88,7 +88,7 @@ class Home extends Component {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
         const contracts = getMainnetContractStorages(addressWithoutPrefix);
         await setDefaultStorage(anvil, account, contracts);
-        accountsSeeded[account] = true;
+        accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
       this.setState({ accountsSeeded });
       console.log('Accounts seeded:', accountsSeeded);
@@ -163,21 +163,13 @@ class Home extends Component {
           </section>
         ) : (
           <section>
-            
             {mainnetStarted ? 
             <p>Mainnet with chainId 1 Running on port 8545</p>
              :
             <p>Polygon with chainId 137 Running on port 8546</p>}
 
             <h3>Default SRP: {DEFAULT_SRP}</h3>
-            <ul>
-              {accounts.map((account, index) => (
-                <li key={index}>
-                  {account}
-                  {accountsSeeded[account] && <span style={{ color: '#4CE0B3' }}>✓</span>}
-                </li>
-              ))}
-            </ul>
+
             <h1>Accounts</h1>
             <table>
               <tbody>
