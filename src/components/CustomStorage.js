@@ -15,7 +15,6 @@ class CustomStorage extends Component {
       svgContent: '',
       contractAddress: '',
       slot: '',
-      address: '',
       value: ''
     };
     this.generateContractLayout = this.generateContractLayout.bind(this);
@@ -65,11 +64,11 @@ class CustomStorage extends Component {
 
   handleStorageSubmit(e) {
     e.preventDefault();
-    const { contractAddress, slot, address, value } = this.state;
-    setCustomStorageBalanceOf(anvil, contractAddress, slot, address, value)
-    console.log('Submitting:', contractAddress, slot, address, value);
+    const { contractAddress, slot, value } = this.state;
+    setCustomStorageBalanceOf(anvil, contractAddress, slot, value)
+    console.log('Submitting:', contractAddress, slot, value);
     // Clear form fields
-    this.setState({ contractAddress: '', slot: '', address: '', value: '' });
+    this.setState({ contractAddress: '', slot: '', value: '' });
   }
 
   handleLayoutChange(e) {
@@ -88,7 +87,7 @@ class CustomStorage extends Component {
   }
 
   render() {
-    const { svgContent, contractAddress, slot, address, value } = this.state;
+    const { svgContent, contractAddress, slot, value } = this.state;
 
     return (
       <div className="CustomStorage">
@@ -128,17 +127,6 @@ class CustomStorage extends Component {
               id="slot"
               name="slot"
               value={slot}
-              onChange={this.handleStorageChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="address">Address:</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={address}
               onChange={this.handleStorageChange}
               required
             />

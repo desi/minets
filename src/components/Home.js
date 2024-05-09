@@ -14,7 +14,8 @@ const {
 } = require('../anvil/network-configs/mainnet');
 
 const {
-  getPolygonContractStorages,
+  getPolygonERC20ContractStorages,
+  getPolygonERC721ContractStorages,
   POLYGON_CONFIG,
 } = require('../anvil/network-configs/polygon');
 
@@ -78,19 +79,25 @@ class Home extends Component {
     try {
       const accounts = await anvil.getAccounts();
       this.setState({ accounts });
-      console.log('Accounts:', accounts);
+      console.log('Accounts set:', accounts);
     } catch (error) {
       console.error('Error getting accounts:', error);
     }
   }
 
-  seedAccountsERC20 = async () => {
+  seedAccountsERC20 = async (network) => {
     try {
       const { accounts } = this.state;
       const accountsSeeded = {};
       for (const account of accounts) {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
-        const contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
+        let contracts;
+        if(network == 'polygon') {
+          contracts = getPolygonERC20ContractStorages(addressWithoutPrefix)
+        }
+        if(network == 'mainnet') {
+          contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
+        }
         await setDefaultStorage(anvil, account, contracts);
         accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
@@ -127,11 +134,17 @@ class Home extends Component {
     }
   }
 
-  seedCustomAccountERC721() {
+  seedCustomAccountERC721(network) {
     const { erc721Address } = this.state;
     if (erc721Address.trim() !== '') {
-      const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();
-      const contracts = getMainnetERC721ContractStorages(addressWithoutPrefix);
+      const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();      
+      let contracts;
+        if(network == 'polygon') {
+          contracts = getPolygonERC721ContractStorages(addressWithoutPrefix)
+        }
+        if(network == 'mainnet') {
+          contracts = getMainnetERC721ContractStorages(addressWithoutPrefix);
+        }
       setDefaultStorage(anvil, erc721Address, contracts)
         .then(() => {
           this.setState({ erc721AddressSeeded: true });
@@ -220,7 +233,7 @@ class Home extends Component {
             </table>
             <ERC20Tokens />
             <div className="custom-account">
-              <button className="seed-btn" onClick={() => this.seedAccountsERC20(anvil)}>
+              <button className="seed-btn" onClick={() => this.seedAccountsERC20(mainnetStarted ? 'mainnet' : 'polygon')}>
                 Seed All Accounts
               </button>
             </div>
@@ -243,7 +256,7 @@ class Home extends Component {
                 onChange={this.handleAccountERC721Change}
                 placeholder="Enter custom account address"
               />
-              <button onClick={this.seedCustomAccountERC721}>Seed Custom Account</button>
+              <button onClick={() => this.seedCustomAccountERC721(mainnetStarted ? 'mainnet' : 'polygon')}>Seed Custom Account</button>
               {erc721AddressSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
             </div>
 
