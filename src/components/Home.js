@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './Home.css';
 
-const {
-  setStorage,
-  stopServer,
-} = require('../anvil/network-configs/mainnet')
+const { setStorage } = require('../anvil/network-configs/mainnet')
 const LocalNetwork = require('../anvil/anvil-setup');
+
+//TODO: Automate getting latest block number so not hardcoded
 const options = {
   blockTime: 2,
   chainId: 1,
@@ -30,6 +29,7 @@ class Home extends Component {
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccounts = this.seedAccounts.bind(this);
     this.stopAnvil = this.stopAnvil.bind(this);
+    this.getBalance = this.getBalance.bind(this);
   }
 
   startAnvil = async () => {
@@ -58,9 +58,11 @@ class Home extends Component {
     try {
       const { accounts } = this.state;
       const accountsSeeded = {};
+      let accountBalance;
       for (const account of accounts) {
         await setStorage(anvil, account);
-        accountsSeeded[account] = true;
+        accountBalance = await this.getBalance(account);
+        accountsSeeded[account] = accountBalance;
       }
       this.setState({ accountsSeeded });
       console.log('Accounts seeded:', accountsSeeded);
@@ -79,6 +81,16 @@ class Home extends Component {
     }
   }
 
+  getBalance = async (address) => {
+    try {
+      const balance = await anvil.getBalance(address);
+      console.log(`Balance of ${address}:`, balance);
+      return balance;
+    } catch (error) {
+      console.error('Error getting balance:', error);
+    }
+  }
+
   render() {
     const { anvilStarted, accounts, accountsSeeded } = this.state;
 
@@ -93,14 +105,22 @@ class Home extends Component {
         ) : (
           <section>
             <h1>Accounts</h1>
-            <ul>
-              {accounts.map((account, index) => (
-                <li key={index}>
-                  {account}
-                  {accountsSeeded[account] && <span style={{ color: '#4CE0B3' }}>✓</span>}
-                </li>
-              ))}
-            </ul>
+            <table>
+              <tbody>
+                <tr>
+                    <th>Account</th>
+                    <th>Balance</th>
+                </tr>
+                {accounts.map((account, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>{account}</td>
+                            <td>{accountsSeeded[account]}</td>
+                        </tr>
+                    )
+                })}
+              </tbody>
+            </table>
             <button className="seed-btn" onClick={() => this.seedAccounts(anvil)}>
               Seed Accounts
             </button>

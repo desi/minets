@@ -105,6 +105,9 @@ async function setStorage(anvil, addressToSeed) {
     console.log("ERROR", e)
   }
 
+  //TODO: Break this out into a separate function so that we can assign
+  // to just the first account. Otherwise the last account is always the owner
+
   // Modify CRYPTOKITTY Contract Storage to Own a CRYPTOKITTY
   // tokenId = 1359295
   const CRYPTOKITTY = "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d";
@@ -118,7 +121,9 @@ async function setStorage(anvil, addressToSeed) {
     value: CRYPTOKITTY_VALUE
   })
 
-
+  //TODO: Break this out into a separate function so that we can assign
+  // to just the first account. Otherwise the last account is always the owner
+  
   // Modify ENS Contract Storage to Own an ENS
   // tokenId = 79233663829379634837589865448569342784712482819484549289560981379859480642508
   const ENS = "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85";

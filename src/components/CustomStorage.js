@@ -101,7 +101,7 @@ class CustomStorage extends Component {
             )}
         </div>
         <h2>Step 2: Set the Storage values</h2>
-        <p>blabla ba</p>
+        <p>INSTRUCTIONS GO HERE</p>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="contract">Contract Address:</label>
