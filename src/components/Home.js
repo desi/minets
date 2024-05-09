@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ERC20Tokens from './ERC20Tokens';
+import ERC721Tokens from './ERC721Tokens';
 import './Home.css';
-
 
 const {
   setDefaultStorage
@@ -187,9 +188,11 @@ class Home extends Component {
                 })}
               </tbody>
             </table>
+            <ERC20Tokens />
             <button className="seed-btn" onClick={() => this.seedAccounts(anvil)}>
               Seed Accounts
             </button>
+            <ERC721Tokens />
             <div className="custom-account">
               <input
                 type="text"

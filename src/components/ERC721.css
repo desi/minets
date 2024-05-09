@@ -1,0 +1,18 @@
+.ERC721 .tokens {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.ERC721 .token {
+    width: 100px;
+    margin: 25px;
+}
+
+.ERC721 .token img {
+width: 100%;
+height: auto;
+}
+
+.ERC721 .token p {
+text-align: center;
+}

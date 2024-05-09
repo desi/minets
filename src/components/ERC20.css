@@ -1,0 +1,18 @@
+.ERC20 .tokens {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.ERC20 .token {
+    width: 100px;
+    margin: 25px;
+}
+
+.ERC20 .token img {
+width: 100%;
+height: auto;
+}
+
+.ERC20 .token p {
+text-align: center;
+}
