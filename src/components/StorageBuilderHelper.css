@@ -1,0 +1,45 @@
+.StorageBuilderHelper {
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+    background: white;
+    border: 0 none;
+    border-radius: 3px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 30%;
+  }
+  
+  .StorageBuilderHelper h2 {
+    margin-bottom: 10px;
+  }
+  
+  .StorageBuilderHelper div {
+    margin-bottom: 10px;
+  }
+  
+  .StorageBuilderHelper input {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    font-size: 13px;
+  }
+  
+  .StorageBuilderHelper button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .StorageBuilderHelper button:hover {
+    background-color: #0056b3;
+  }

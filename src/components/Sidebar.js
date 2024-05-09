@@ -11,7 +11,7 @@ function Sidebar() {
           <Link to="/main_window">Home</Link>
         </li>
         <li>
-          <Link to="/contract-layout">Custom Storage</Link>
+          <Link to="/contract-layout">Storage Laboratory</Link>
         </li>
         <li>
           <Link to="/builds-layout">Builds</Link>

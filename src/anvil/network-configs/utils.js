@@ -41,6 +41,25 @@ async function setDefaultStorage(anvil, addressToSeed, contracts) {
     }
 }
 
-module.exports = { hexToString, setDefaultStorage };
+async function setCustomStorage(anvil, address, slot,value) {
+    const testClient = anvil.getProvider().testClient;
+
+    try {
+      await testClient.setStorageAt({
+        address,
+        index: slot,
+        value
+      });
+    } catch (e) {
+        console.log("ERROR", e);
+    }
+}
+
+
+module.exports = {
+    hexToString,
+    setDefaultStorage,
+    setCustomStorage,
+};
 
 

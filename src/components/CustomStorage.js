@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { exec } from 'child_process';
 import fs from 'fs';
+import StorageBuilderHelper from './StorageBuilderHelper';
+
 import './CustomStorage.css';
 const {
   setCustomStorageBalanceOf
@@ -15,7 +17,7 @@ class CustomStorage extends Component {
       svgContent: '',
       contractAddress: '',
       slot: '',
-      value: ''
+      value: '0x0000000000000000000000000000000000000000000000000000000000000000'
     };
     this.generateContractLayout = this.generateContractLayout.bind(this);
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
@@ -91,7 +93,7 @@ class CustomStorage extends Component {
 
     return (
       <div className="CustomStorage">
-        <h1>Custom Storage</h1>
+        <h1>Storage Laboratory</h1>
         <h2>Get the Contract Storage Layout</h2>
         <form className="storageLayout" onSubmit={this.handleLayoutSubmit}>
           <label htmlFor="contractCode">Contract Code:</label>
@@ -108,42 +110,53 @@ class CustomStorage extends Component {
 
         <h2>Set the Storage values</h2>
         <p>INSTRUCTIONS GO HERE</p>
-        <form onSubmit={this.handleStorageSubmit}>
-          <div>
-            <label htmlFor="contractAddress">Contract Address:</label>
-            <input
-              type="text"
-              id="contractAddress"
-              name="contractAddress"
-              value={contractAddress}
-              onChange={this.handleStorageChange}
-              required
-            />
+        <div className="customStorageContainer">
+          <div className="customStorage">
+            <form onSubmit={this.handleStorageSubmit}>
+              <h2>Set Slot and Value</h2>
+              <div>
+                <label htmlFor="contractAddress">Contract Address:</label>
+                <input
+                  type="text"
+                  id="contractAddress"
+                  name="contractAddress"
+                  value={contractAddress}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <div>
+                <p>To construct the slot, we look for which slot number we need to modify in the Storage Layout above.</p>
+                <p>If we are working with a mapping, the slot will take the form of 0's+key+0's+slot_number</p>
+                <label htmlFor="slot">Slot:</label>
+                <input
+                  type="text"
+                  id="slot"
+                  name="slot"
+                  value={slot}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <div>
+                <p>Here we set the value we want in hex format, and padded with 0's.</p>
+                <p>Example: if I want to modify the mapping(address=>uint): balanceOf, the value is the unit I want to set</p>
+                <label htmlFor="value">Value:</label>
+                <input
+                  type="text"
+                  id="value"
+                  name="value"
+                  value={value}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <button type="submit">Set Custom Storage</button>
+            </form>
           </div>
-          <div>
-            <label htmlFor="slot">Slot:</label>
-            <input
-              type="text"
-              id="slot"
-              name="slot"
-              value={slot}
-              onChange={this.handleStorageChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="value">Value:</label>
-            <input
-              type="text"
-              id="value"
-              name="value"
-              value={value}
-              onChange={this.handleStorageChange}
-              required
-            />
-          </div>
-          <button type="submit">Set Custom Storage</button>
-        </form>
+            
+          <StorageBuilderHelper />
+        </div>
       </div>
     );
   }
