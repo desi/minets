@@ -1,15 +1,6 @@
 const { createAnvil } = require("@viem/anvil");
 const { createAnvilClients } = require("./anvil-clients");
 
-const defaultOptions = {
-  blockTime: 2,
-  chainId: 1337,
-  mnemonic: 'phrase upgrade clock rough situate wedding elder clever doctor stamp excess tent',
-  port: 8545,
-  hardfork: 'London',
-  silent: false,
-};
-
 class LocalNetwork {
 
   async start(opts) {

@@ -66,8 +66,8 @@
 }
 
 .Home .disconnect-btn {
-  background-color: #3F8EFC;
-  color: black;
+  background-color: #FF6B8B;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   font-size: 20px;
@@ -78,7 +78,7 @@
 }
 
 .Home .disconnect-btn:hover {
-  background-color: #3F8EFC;
+  background-color: #FF8FA3;
   color: #fff;
 }
 
@@ -111,4 +111,39 @@
 
 .Home li {
   padding-bottom: 15px;
+}
+
+
+.Home .custom-account {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.Home .custom-account textarea,
+.Home .custom-account input[type="text"] {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 20px;
+}
+
+.Home .custom-account button {
+  background-color: #3F8EFC;;
+  color: black;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.Home .custom-account button:hover {
+  background-color: #3F8EFC;
+  color: #fff;
 }
