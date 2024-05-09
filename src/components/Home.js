@@ -8,7 +8,8 @@ const {
 } = require('../anvil/network-configs/utils');
 
 const {
-  getMainnetContractStorages,
+  getMainnetERC20ContractStorages,
+  getMainnetERC721ContractStorages,
   MAINNET_CONFIG,
 } = require('../anvil/network-configs/mainnet');
 
@@ -33,15 +34,18 @@ class Home extends Component {
       accountsSeeded: {},
       customAccountAddress: '',
       customAccountSeeded: false,
-
+      erc721Address: '',
+      erc721AddressSeeded: false,
     }
     this.startMainnet = this.startMainnet.bind(this);
     this.startPolygon = this.startPolygon.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
-    this.seedAccounts = this.seedAccounts.bind(this);
+    this.seedAccountsERC20 = this.seedAccountsERC20.bind(this);
+    this.seedCustomAccountERC721 = this.seedCustomAccountERC721.bind(this);
     this.stopAnvil = this.stopAnvil.bind(this);
     this.getBalance = this.getBalance.bind(this);
     this.handleCustomAccountChange = this.handleCustomAccountChange.bind(this);
+    this.handleAccountERC721Change = this.handleAccountERC721Change.bind(this);
     this.seedCustomAccount = this.seedCustomAccount.bind(this);
   }
 
@@ -80,14 +84,13 @@ class Home extends Component {
     }
   }
 
-  seedAccounts = async () => {
+  seedAccountsERC20 = async () => {
     try {
       const { accounts } = this.state;
       const accountsSeeded = {};
-      let accountBalance;
       for (const account of accounts) {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
-        const contracts = getMainnetContractStorages(addressWithoutPrefix);
+        const contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
         await setDefaultStorage(anvil, account, contracts);
         accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
@@ -102,11 +105,15 @@ class Home extends Component {
     this.setState({ customAccountAddress: event.target.value });
   }
 
+  handleAccountERC721Change(event) {
+    this.setState({ erc721Address: event.target.value });
+  }
+
   seedCustomAccount() {
     const { customAccountAddress } = this.state;
     if (customAccountAddress.trim() !== '') {
       const addressWithoutPrefix = customAccountAddress.substring(2).toLowerCase();
-      const contracts = getMainnetContractStorages(addressWithoutPrefix);
+      const contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
       setDefaultStorage(anvil, customAccountAddress, contracts)
         .then(() => {
           this.setState({ customAccountSeeded: true });
@@ -114,6 +121,24 @@ class Home extends Component {
         })
         .catch(error => {
           console.error(`Error seeding custom account ${customAccountAddress}:`, error);
+        });
+    } else {
+      console.error('Custom account address is required.');
+    }
+  }
+
+  seedCustomAccountERC721() {
+    const { erc721Address } = this.state;
+    if (erc721Address.trim() !== '') {
+      const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();
+      const contracts = getMainnetERC721ContractStorages(addressWithoutPrefix);
+      setDefaultStorage(anvil, erc721Address, contracts)
+        .then(() => {
+          this.setState({ erc721AddressSeeded: true });
+          console.log(`Custom account ${erc721Address} seeded successfully.`);
+        })
+        .catch(error => {
+          console.error(`Error seeding custom account ${erc721Address}:`, error);
         });
     } else {
       console.error('Custom account address is required.');
@@ -148,6 +173,8 @@ class Home extends Component {
       accountsSeeded,
       customAccountAddress,
       customAccountSeeded,
+      erc721Address,
+      erc721AddressSeeded,
     } = this.state;
 
     return (
@@ -170,6 +197,9 @@ class Home extends Component {
             <p>Polygon with chainId 137 Running on port 8546</p>}
 
             <h3>Default SRP: {DEFAULT_SRP}</h3>
+            <button className="disconnect-btn" onClick={() => this.stopAnvil(anvil)}>
+              Stop Anvil
+            </button>
 
             <h1>Accounts</h1>
             <table>
@@ -189,10 +219,12 @@ class Home extends Component {
               </tbody>
             </table>
             <ERC20Tokens />
-            <button className="seed-btn" onClick={() => this.seedAccounts(anvil)}>
-              Seed Accounts
-            </button>
-            <ERC721Tokens />
+            <div className="custom-account">
+              <button className="seed-btn" onClick={() => this.seedAccountsERC20(anvil)}>
+                Seed All Accounts
+              </button>
+            </div>
+            
             <div className="custom-account">
               <input
                 type="text"
@@ -203,9 +235,18 @@ class Home extends Component {
               <button onClick={this.seedCustomAccount}>Seed Custom Account</button>
               {customAccountSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
             </div>
-            <button className="disconnect-btn" onClick={() => this.stopAnvil(anvil)}>
-              Stop Anvil
-            </button>
+            <ERC721Tokens />
+            <div className="custom-account">
+              <input
+                type="text"
+                value={erc721Address}
+                onChange={this.handleAccountERC721Change}
+                placeholder="Enter custom account address"
+              />
+              <button onClick={this.seedCustomAccountERC721}>Seed Custom Account</button>
+              {erc721AddressSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
+            </div>
+
           </section>
         )}
       </div>

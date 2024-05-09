@@ -1,11 +1,12 @@
 .ERC721 .tokens {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
   
 .ERC721 .token {
-    width: 100px;
-    margin: 25px;
+    width: 200px;
+    margin: 15px;
 }
 
 .ERC721 .token img {
@@ -15,4 +16,10 @@ height: auto;
 
 .ERC721 .token p {
 text-align: center;
+}
+
+.token span {
+    display: block;
+    text-align: center;
+    white-space: normal; /* Allow text to wrap */
 }

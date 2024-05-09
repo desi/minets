@@ -22,11 +22,23 @@
   font-size: 40px;
 }
 
+.Home p {
+  margin-top: 90px;
+  font-weight: 300;
+  font-size: 50px;
+  font-weight: 300;
+}
+
+
 .Home table {
   width: 100%;
   border-collapse: separate;
   margin-top: 20px;
+  font-weight: 300;
+  font-size: 20px;
+  font-weight: 300;
 }
+
 
 .Home tr:nth-child(even) {
   background-color: #807d7d;
