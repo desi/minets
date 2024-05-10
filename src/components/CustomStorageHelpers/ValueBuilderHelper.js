@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
-import  './ValueBuilderHelper.css';
+import "./ValueBuilderHelper.css";
 
 class ValueBuilderHelper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      intInput: '',
-      hexInput: '',
-      formattedHexValue: '',
+      intInput: "",
+      hexInput: "",
+      formattedHexValue: "",
       copied: false,
     };
 
     this.handleCopyClick = this.handleCopyClick.bind(this);
     this.handleIntInputChange = this.handleIntInputChange.bind(this);
     this.add18Decimals = this.add18Decimals.bind(this);
-
   }
 
   handleCopyClick = () => {
@@ -25,7 +24,6 @@ class ValueBuilderHelper extends Component {
     navigator.clipboard.writeText(formattedHexValue);
     this.setState({ copied: true });
   };
-
 
   handleIntInputChange = (event) => {
     const intInput = event.target.value;
@@ -39,12 +37,12 @@ class ValueBuilderHelper extends Component {
 
   convertIntToHex = (intInput) => {
     const hexValue = parseInt(intInput).toString(16);
-    return hexValue.padStart(64, '0');
+    return hexValue.padStart(64, "0");
   };
 
   add18Decimals = () => {
     this.setState((prevState) => {
-      const intInput = prevState.intInput + '0'.repeat(18);
+      const intInput = prevState.intInput + "0".repeat(18);
       const hexValue = this.convertIntToHex(intInput);
       return {
         intInput,
@@ -59,15 +57,10 @@ class ValueBuilderHelper extends Component {
   };
 
   render() {
-    const {
-      intInput,
-      hexInput,
-      formattedHexValue,
-      copied,
-    } = this.state;
+    const { intInput, hexInput, formattedHexValue, copied } = this.state;
 
     return (
-      <div className='ValueBuilderHelper'>
+      <div className="ValueBuilderHelper card">
         <h2>Value Builder Helper</h2>
         <div>
           <label htmlFor="intInput">Integer Input:</label>
@@ -111,6 +104,5 @@ class ValueBuilderHelper extends Component {
     );
   }
 }
-
 
 export default ValueBuilderHelper;

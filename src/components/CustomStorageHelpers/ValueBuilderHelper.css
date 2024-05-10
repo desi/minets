@@ -1,14 +1,5 @@
 .ValueBuilderHelper {
-  margin: 50px auto;
-  text-align: center;
-  position: relative;
-  background: white;
-  border: 0 none;
-  border-radius: 3px;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px 30px;
-  box-sizing: border-box;
-  width: 30%;
+  width: 50%;
 }
 
 .ValueBuilderHelper h2 {
@@ -27,7 +18,7 @@
   margin-bottom: 10px;
   width: 100%;
   box-sizing: border-box;
-  color: #2C3E50;
+  color: #2c3e50;
   font-size: 15px;
   overflow-wrap: break-word;
 }
@@ -49,7 +40,7 @@
 }
 
 .ValueBuilderHelper input[name="formattedHexValue"]:not([value=""]) {
-  background-color: #ACE4AA;
+  background-color: #ace4aa;
 }
 
 .ValueBuilderHelper input[name="hexInput"],
@@ -66,4 +57,3 @@
   margin-left: 5px;
   color: green;
 }
-
