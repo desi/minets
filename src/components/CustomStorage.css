@@ -1,34 +1,32 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-
 .CustomStorage {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    font-family: montserrat, arial, verdana;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .CustomStorage h1 {
-    margin-left: 150px;
-    transition: margin-left 0.3s ease;
-    font-weight: 300;
-    font-size: 50px;
-    margin-top: 20px;
-    margin-bottom: 50px;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #6c757d;
+}
+
+.CustomStorage h2 {
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
 .CustomStorage .storageLayout {
-    margin-bottom: 50px;
 }
 
 .CustomStorage .customStorage {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .CustomStorage .storageLayout {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .CustomStorage .storageLayout textarea,
@@ -50,40 +48,33 @@
   height: 120px;
 }
 
-
 .CustomStorage button {
-    margin-top: 10px;
-    margin-bottom: 30px;
-    background-color: #FF6B8B;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  background-color: #ff6b8b;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .CustomStorage img {
-    margin-left: 20px;
-    margin-top: 30px;
+  margin-left: 20px;
+  margin-top: 30px;
 }
 
-
 .CustomStorage form {
-  width: 400px;
-  margin: 50px auto;
-  text-align: center;
-  position: relative;
-  background: white;
-  border: 0 none;
-  border-radius: 3px;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px 30px;
-  box-sizing: border-box;
-  width: 70%;
-  margin: 0 10%;
-  position: relative;
+  width: 100%;
+  padding: 2rem;
+}
+
+.CustomStorage form label {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .CustomStorage form input {
@@ -94,20 +85,22 @@
   width: 100%;
   box-sizing: border-box;
   font-family: montserrat;
-  color: #2C3E50;
+  color: #2c3e50;
   font-size: 13px;
 }
 
 .CustomStorage form button {
-    margin-left: 10px;
-    margin-bottom: 50px;
+  margin-left: 10px;
 }
 
 .customStorageContainer {
-    display: flex;
+  display: flex;
+  max-width: 90vw;
+  flex-wrap: nowrap;
+  gap: 2rem;
 }
-  
+
 .customStorage {
-    flex: 1;
-    margin-right: 20px;
+  flex: 1;
+  margin-right: 20px;
 }

@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import ERC20Tokens from './ERC20Tokens';
-import ERC721Tokens from './ERC721Tokens';
-import avalanche from '../anvil/network-imgs/avalanche.png';
-import binance from '../anvil/network-imgs/binance.png';
-import ethereum from '../anvil/network-imgs/ethereum.png';
-import polygon from '../anvil/network-imgs/polygon.png';
-import { setDefaultStorage } from '../anvil/network-configs/utils';
+import React, { Component } from "react";
+import ERC20Tokens from "./ERC20Tokens";
+import ERC721Tokens from "./ERC721Tokens";
+import avalanche from "../anvil/network-imgs/avalanche.png";
+import binance from "../anvil/network-imgs/binance.png";
+import ethereum from "../anvil/network-imgs/ethereum.png";
+import polygon from "../anvil/network-imgs/polygon.png";
+import { setDefaultStorage } from "../anvil/network-configs/utils";
 
 import {
   getMainnetERC20ContractStorages,
   getMainnetERC721ContractStorages,
   MAINNET_CONFIG,
-} from '../anvil/network-configs/mainnet';
+} from "../anvil/network-configs/mainnet";
 
 import {
   getPolygonERC20ContractStorages,
   getPolygonERC721ContractStorages,
   POLYGON_CONFIG,
-} from '../anvil/network-configs/polygon';
+} from "../anvil/network-configs/polygon";
 
-import './Home.css';
+import "./Home.css";
 
 const DEFAULT_SRP =
   "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
@@ -49,7 +49,7 @@ const NETWORKS = {
     erc721Contracts: "",
     img: binance,
   },
-}
+};
 
 class Home extends Component {
   constructor(props) {
@@ -97,8 +97,8 @@ class Home extends Component {
         console.error(`Network ${networkName} not found.`);
         return;
       }
-      await this.props.startServer(network.config)
-      const updatedNetworks = this.state.networks.map(network => {
+      await this.props.startServer(network.config);
+      const updatedNetworks = this.state.networks.map((network) => {
         if (network.name === networkName) {
           return { ...network, started: true };
         }
@@ -241,7 +241,7 @@ class Home extends Component {
                 </button>
               </div>
             ))}
-            <h2>More networkings coming soon!</h2>
+            <h3>More networkings coming soon!</h3>
           </section>
         ) : (
           <section className="card">
