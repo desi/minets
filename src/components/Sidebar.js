@@ -1,23 +1,22 @@
-// Sidebar.js
+// Header.js
 import React from "react";
-import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="sidebar">
-      <ul>
-        <li>
-          <Link to="/main_window">Home</Link>
-        </li>
-        <li>
+    <header className="header">
+      <div className="logo">
+        <Link to="/main_window">Minets</Link>
+      </div>
+      <nav className="nav">
+        <div className="nav-link">
           <Link to="/contract-layout">Storage Laboratory</Link>
-        </li>
-        <li>
+        </div>
+        <div className="nav-link">
           <Link to="/builds-layout">Builds</Link>
-        </li>
-      </ul>
-    </div>
+        </div>
+      </nav>
+    </header>
   );
 }
 

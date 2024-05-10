@@ -42,6 +42,8 @@
   "license": "MIT",
   "dependencies": {
     "@ethersproject/keccak256": "^5.7.0",
+    "@fontsource-variable/inter": "^5.0.18",
+    "@metamask/design-tokens": "^2.1.1",
     "@viem/anvil": "^0.0.10",
     "axios": "^1.6.8",
     "dompurify": "^3.1.2",

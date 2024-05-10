@@ -1,13 +1,3 @@
-.Home {
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 250px;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
-
 .Home h1 {
   margin: 0;
   font-weight: 300;
@@ -29,7 +19,6 @@
   font-weight: 300;
 }
 
-
 .Home table {
   width: 100%;
   border-collapse: separate;
@@ -39,14 +28,13 @@
   font-weight: 300;
 }
 
-.Home table tr{
+.Home table tr {
   height: 60px;
 }
 
-.Home table td{
+.Home table td {
   padding-left: 40px;
 }
-
 
 .Home tr:nth-child(even) {
   background-color: #807d7d;
@@ -57,14 +45,18 @@
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 10px;
-  min-height: 50vh;
+  min-height: 40vh;
   min-width: 40vh;
-  max-width: 54vh;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .Home .connect-btn {
-  background-color: #FF6B8B;
+  background-color: #ff6b8b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -76,11 +68,11 @@
 }
 
 .Home .connect-btn:hover {
-  background-color: #FF8FA3;
+  background-color: #ff8fa3;
 }
 
 .Home .seed-btn {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -92,12 +84,12 @@
 }
 
 .Home .seed-btn:hover {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: #fff;
 }
 
 .Home .disconnect-btn {
-  background-color: #FF6B8B;
+  background-color: #ff6b8b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -109,12 +101,12 @@
 }
 
 .Home .disconnect-btn:hover {
-  background-color: #FF8FA3;
+  background-color: #ff8fa3;
   color: #fff;
 }
 
 .Home .add-network-btn {
-  background-color: #3F8EFC;;
+  background-color: #3f8efc;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -126,7 +118,7 @@
 }
 
 .Home .add-network-btn:hover {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: #fff;
 }
 
@@ -143,7 +135,6 @@
 .Home li {
   padding-bottom: 15px;
 }
-
 
 .Home .custom-account {
   display: flex;
@@ -162,7 +153,7 @@
 }
 
 .Home .custom-account button {
-  background-color: #3F8EFC;;
+  background-color: #3f8efc;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -175,7 +166,7 @@
 }
 
 .Home .custom-account button:hover {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: #fff;
 }
 

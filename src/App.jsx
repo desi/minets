@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./components/Home";
-import CustomStorage from './components/CustomStorage';
+import CustomStorage from "./components/CustomStorage";
 import Sidebar from "./components/Sidebar";
 import Builds from "./components/Builds";
-import LocalNetwork from './anvil/anvil-setup';
+import LocalNetwork from "./anvil/anvil-setup";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   // Setting anvil here since we need to access it from various components
@@ -15,32 +15,36 @@ function App() {
     try {
       const server = new LocalNetwork();
       await server.start(config);
-      console.log('Server started successfully.');
+      console.log("Server started successfully.");
       setAnvil(server);
     } catch (error) {
-      console.error('Error starting server:', error);
+      console.error("Error starting server:", error);
     }
   };
 
   const stopServer = async () => {
-      try {
-        await anvil.quit();
-        console.log('Anvil server stopped successfully.');
-        setAnvil(null);
-      } catch (error) {
-        console.error('Error stopping Anvil:', error);
-      }
-  }
+    try {
+      await anvil.quit();
+      console.log("Anvil server stopped successfully.");
+      setAnvil(null);
+    } catch (error) {
+      console.error("Error stopping Anvil:", error);
+    }
+  };
 
   return (
     <Router>
       <div className="App">
         <div className="status">
-          <span>{anvil ? 'Anvil server running' : 'Anvil server not running'}</span>
-          <div className={anvil ? 'ball-green' : 'ball-red'} />
+          <span>
+            {anvil ? "Anvil server running" : "Anvil server not running"}
+          </span>
+          <div className={anvil ? "ball-green" : "ball-red"} />
           {/* Render the "Stop Server" button if Anvil is running */}
           {anvil && (
-            <button className="stop" onClick={stopServer}>Stop Server</button>
+            <button className="stop" onClick={stopServer}>
+              Stop Server
+            </button>
           )}
         </div>
         {/* Left sidebar menu */}
@@ -48,14 +52,26 @@ function App() {
         {/* Main content */}
         <div>
           <Routes>
-            <Route path="/main_window" element={<Home anvil={anvil} startServer={startServer} stopServer={stopServer}/>} />
-            <Route path="/contract-layout" element={<CustomStorage anvil={anvil}/>} />
+            <Route
+              path="/main_window"
+              element={
+                <Home
+                  anvil={anvil}
+                  startServer={startServer}
+                  stopServer={stopServer}
+                />
+              }
+            />
+            <Route
+              path="/contract-layout"
+              element={<CustomStorage anvil={anvil} />}
+            />
             <Route path="/builds-layout" element={<Builds />} />
           </Routes>
         </div>
       </div>
       <></>
-  </Router>
+    </Router>
   );
 }
 

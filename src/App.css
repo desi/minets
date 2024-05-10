@@ -1,4 +1,3 @@
-
 .App .status {
   display: flex;
   justify-content: flex-end;
@@ -13,18 +12,18 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #ACE4AA;
+  background-color: #ace4aa;
 }
 
 .App .status .ball-red {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #FF220C;
+  background-color: #ff220c;
 }
 
 .App .stop {
-  background-color: #FF6B8B;
+  background-color: #ff6b8b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -37,6 +36,6 @@
 }
 
 .App .stop:hover {
-  background-color: #FF8FA3;
+  background-color: #ff8fa3;
   color: #fff;
-}  
+}
