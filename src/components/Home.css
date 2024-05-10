@@ -1,149 +1,63 @@
-.Home {
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 250px;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
-
 .Home h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
   margin: 0;
-  font-weight: 300;
-  font-size: 50px;
-  margin-top: 20px;
-  margin-bottom: 50px;
 }
 
 .Home h2 {
-  margin-top: 90px;
-  font-weight: 300;
-  font-size: 40px;
+  font-weight: 700;
+  font-size: 1.25rem;
 }
 
-.Home p {
-  margin-top: 90px;
-  font-weight: 300;
-  font-size: 50px;
-  font-weight: 300;
+.Home h3 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: #6c757d;
 }
 
-
+/* Consolidated table, th, and td styles */
 .Home table {
   width: 100%;
-  border-collapse: separate;
   margin-top: 20px;
-  font-weight: 300;
-  font-size: 20px;
-  font-weight: 300;
+  border-collapse: collapse; /* Ensures borders between cells are shared */
 }
 
-.Home table tr{
-  height: 60px;
+.Home th,
+.Home td {
+  border: 1px solid #dee2e6;
+  text-align: center;
+  padding: 0.75rem; /* Adjust padding as needed */
 }
 
-.Home table td{
-  padding-left: 40px;
+.Home table tr {
+  height: 2.25rem;
 }
-
 
 .Home tr:nth-child(even) {
-  background-color: #807d7d;
-  color: white;
+  background-color: #dee2e6;
 }
 
 .Home .connect-section {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  min-height: 50vh;
-  min-width: 40vh;
-  max-width: 54vh;
+  margin-top: 2rem;
+  min-width: 50vw;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #f7f7f7;
+  box-shadow: 9px 9px 18px #e6e6e6, -9px -9px 18px #ffffff;
   text-align: center;
-}
-
-.Home .connect-btn {
-  background-color: #FF6B8B;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.Home .connect-btn:hover {
-  background-color: #FF8FA3;
-}
-
-.Home .seed-btn {
-  background-color: #3F8EFC;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.Home .seed-btn:hover {
-  background-color: #3F8EFC;
-  color: #fff;
-}
-
-.Home .disconnect-btn {
-  background-color: #FF6B8B;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.Home .disconnect-btn:hover {
-  background-color: #FF8FA3;
-  color: #fff;
-}
-
-.Home .add-network-btn {
-  background-color: #3F8EFC;;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.Home .add-network-btn:hover {
-  background-color: #3F8EFC;
-  color: #fff;
-}
-
-.Home .selected-address {
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-.Home li span {
-  font-size: 25px;
-  padding-left: 10px;
 }
 
 .Home li {
   padding-bottom: 15px;
 }
 
+.Home li span {
+  font-size: 25px;
+  padding-left: 10px;
+}
 
 .Home .custom-account {
   display: flex;
@@ -155,51 +69,37 @@
 .Home .custom-account input[type="text"] {
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #adb5bd;
   border-radius: 4px;
   resize: vertical;
   font-size: 20px;
 }
 
-.Home .custom-account button {
-  background-color: #3F8EFC;;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-}
-
-.Home .custom-account button:hover {
-  background-color: #3F8EFC;
-  color: #fff;
+.network-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
 }
 
 .Home img {
-  width: 100px;
-  margin: 25px;
-  margin-right: 50px;
+  width: 2rem;
+  height: auto;
 }
 
 .Home .network {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
 }
 
-.Home .network h2 {
-  margin-right: 50px;
-  font-size: 30px;
-  justify-content: center;
-}
-
+.Home .network h2,
 .Home .network button {
   justify-content: center;
   align-items: center;
+}
+
+.Home .card {
+  padding: 2rem;
 }

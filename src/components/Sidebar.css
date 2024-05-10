@@ -1,37 +1,97 @@
 .sidebar {
-    height: 100%;
-    width: 250px;
-    min-width: 150px;
-    max-width: 400px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #333;
-    color: #fff;
-    padding-top: 20px;
-    overflow-y: auto;
-    transition: width 0.3s ease;
-    padding-inline: 8px;
-    font-size: 20px;
+  max-width: 90vw;
+  margin: 1.5rem auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: #f7f7f7;
+  box-shadow: 9px 9px 18px #e6e6e6, -9px -9px 18px #ffffff;
+}
+
+.anvil {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.logo {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #ff6b8b;
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+}
+.link {
+  color: black;
+  text-decoration: none;
+  font-weight: 500;
+  color: #6c757d;
+
+  &:hover {
+    color: #212529;
   }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar ul li {
-    padding: 20px;
-    border-bottom: 1px solid #555;
-  }
-  
-  .sidebar ul li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .sidebar ul li:hover {
-    background-color: #555;
-  }
-  
+}
+
+.status {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
+  background: #fff0f3;
+  color: #ff6b8b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  border-radius: 999px;
+}
+
+.status.on {
+  background: #d8f3dc;
+  color: #2d6a4f;
+}
+
+.status .ball-green {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background-color: #2d6a4f;
+}
+
+.status .ball-red {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background-color: #ff4d6d;
+}
+
+.stop-btn {
+  background-color: #ff6b8b;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  letter-spacing: 0.25px;
+}
+
+.stop-btn:hover {
+  background-color: #ff8fa3;
+  color: #fff;
+}
