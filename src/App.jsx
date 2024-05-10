@@ -38,6 +38,10 @@ function App() {
         <div className="status">
           <span>{anvil ? 'Anvil server running' : 'Anvil server not running'}</span>
           <div className={anvil ? 'ball-green' : 'ball-red'} />
+          {/* Render the "Stop Server" button if Anvil is running */}
+          {anvil && (
+            <button className="stop" onClick={stopServer}>Stop Server</button>
+          )}
         </div>
         {/* Left sidebar menu */}
         <Sidebar />

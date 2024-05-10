@@ -72,7 +72,6 @@ class Home extends Component {
       erc721AddressSeeded: false,
     }
     this.startNetwork = this.startNetwork.bind(this);
-    this.stopNetwork = this.stopNetwork.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccountsERC20 = this.seedAccountsERC20.bind(this);
     this.seedERC20CustomAccount = this.seedERC20CustomAccount.bind(this);
@@ -183,15 +182,6 @@ class Home extends Component {
     }
   }
 
-  stopNetwork = async () => {
-    try {
-      await this.props.stopServer()
-      this.setState({ networks: this.state.networks.map(network => ({ ...network, started: false })), accounts: [] });
-    } catch (error) {
-      console.error('Error stopping Anvil:', error);
-    }
-  }
-
   getBalance = async (address) => {
     try {
       const balance = await this.props.anvil.getBalance(address);
@@ -217,7 +207,7 @@ class Home extends Component {
 
     return (
       <div className="Home">
-        {!networks.some(network => network.started) ? (
+        {!anvil ? (
           <section className="connect-section">
             <h1>Minets!</h1>
             {networks.map(network => (
@@ -242,10 +232,6 @@ class Home extends Component {
             ))}
 
             <h3>Default SRP: {DEFAULT_SRP}</h3>
-            <button className="disconnect-btn" onClick={this.stopNetwork}>
-              Stop Anvil
-            </button>
-
             <h1>Accounts</h1>
             <table>
               <tbody>

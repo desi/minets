@@ -22,3 +22,21 @@
   border-radius: 50%;
   background-color: #FF220C;
 }
+
+.App .stop {
+  background-color: #FF6B8B;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+.App .stop:hover {
+  background-color: #FF8FA3;
+  color: #fff;
+}  

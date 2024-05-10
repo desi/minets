@@ -39,9 +39,18 @@
   font-weight: 300;
 }
 
+.Home table tr{
+  height: 60px;
+}
+
+.Home table td{
+  padding-left: 40px;
+}
+
 
 .Home tr:nth-child(even) {
   background-color: #807d7d;
+  color: white;
 }
 
 .Home .connect-section {
