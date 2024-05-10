@@ -1,0 +1,69 @@
+.SlotBuilderHelper {
+  margin: 50px auto;
+  text-align: center;
+  position: relative;
+  background: white;
+  border: 0 none;
+  border-radius: 3px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 30%;
+}
+
+.SlotBuilderHelper h2 {
+  margin-bottom: 10px;
+}
+
+.SlotBuilderHelper div {
+  margin-bottom: 10px;
+}
+
+.SlotBuilderHelper input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #2C3E50;
+  font-size: 15px;
+  overflow-wrap: break-word;
+}
+
+.SlotBuilderHelper button {
+  padding: 5px 10px;
+  background-color: #007bff !important;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.SlotBuilderHelper button:hover {
+  background-color: #0056b3 !important;
+}
+
+.SlotBuilderHelper input[name="formattedHexValue"] {
+  font-weight: bold;
+}
+
+.SlotBuilderHelper input[name="formattedHexValue"]:not([value=""]) {
+  background-color: #ACE4AA;
+}
+
+.SlotBuilderHelper input[name="hexInput"],
+.SlotBuilderHelper input[name="formattedHexValue"] {
+  height: 50px;
+}
+
+.SlotBuilderHelper .copy-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.SlotBuilderHelper .copied-message {
+  margin-left: 5px;
+  color: green;
+}
+

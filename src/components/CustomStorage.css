@@ -17,8 +17,13 @@
 }
 
 .CustomStorage .storageLayout {
+    margin-bottom: 50px;
+}
+
+.CustomStorage .customStorage {
     display: flex;
     flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .CustomStorage .storageLayout {
@@ -33,12 +38,22 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
+  height: 30px;
+}
+
+.CustomStorage #contractCode {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  height: 120px;
 }
 
 
 .CustomStorage button {
-    margin-left: 150px;
-    margin-bottom: 50px;
+    margin-top: 10px;
+    margin-bottom: 30px;
     background-color: #FF6B8B;
     color: #fff;
     border: none;
@@ -94,5 +109,5 @@
   
 .customStorage {
     flex: 1;
-    margin-right: 20px; /* Adjust the margin as needed */
+    margin-right: 20px;
 }

@@ -1,3 +1,5 @@
+const { keccak256 } = require('@ethersproject/keccak256')
+
 function hexToString(hex) {
     if (!hex.match(/^[0-9a-fA-F]+$/)) {
       throw new Error('is not a hex string.');
@@ -47,7 +49,7 @@ async function setCustomStorage(anvil, address, slot,value) {
     try {
       await testClient.setStorageAt({
         address,
-        index: slot,
+        index: `${keccak256(hexToString(slot))}`,
         value
       });
     } catch (e) {
