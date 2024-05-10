@@ -1,25 +1,50 @@
 .ERC721 .tokens {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: top;
 }
-  
+
 .ERC721 .token {
-    width: 200px;
-    margin: 15px;
+  max-width: 35vw;
+  margin: 15px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .ERC721 .token img {
-width: 100%;
-height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .ERC721 .token p {
-text-align: center;
+  text-align: center;
 }
 
 .token span {
-    display: block;
-    text-align: center;
-    white-space: normal; /* Allow text to wrap */
+  display: block;
+  text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.token .name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.token .contract {
+  font-size: 0.75rem;
+}
+
+.token .tokenId {
+  font-size: 0.75rem;
+}
+
+.token-data {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
 }

@@ -244,17 +244,18 @@ class Home extends Component {
           <section className="card">
             {networks.map((network) => (
               <div key={network.name}>
-                {network.started ? (
+                {network.started ? <h1>{network.name}</h1> : null}
+                {/* {network.started ? (
                   <p>
                     {network.name} with chainId {network.chainId} Running on
                     port {network.port}
                   </p>
-                ) : null}
+                ) : null} */}
               </div>
             ))}
 
             <h3>Default SRP: {DEFAULT_SRP}</h3>
-            <h1>Accounts</h1>
+            <h2>Accounts</h2>
             <table>
               <tbody>
                 <tr>
@@ -317,6 +318,7 @@ class Home extends Component {
                 placeholder="Enter custom account address"
               />
               <button
+                className="btn"
                 onClick={() =>
                   this.seedERC721CustomAccount(
                     networks.find((network) => network.started).name

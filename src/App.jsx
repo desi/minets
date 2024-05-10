@@ -34,7 +34,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div>
         {/* Left sidebar menu */}
         <Sidebar anvil={anvil} stopServer={stopServer} />
         {/* Main content */}
