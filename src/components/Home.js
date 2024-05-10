@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import ERC20Tokens from './ERC20Tokens';
-import ERC721Tokens from './ERC721Tokens';
-import avalanche from '../anvil/network-imgs/avalanche.png';
-import binance from '../anvil/network-imgs/binance.png';
-import ethereum from '../anvil/network-imgs/ethereum.png';
-import polygon from '../anvil/network-imgs/polygon.png';
+import React, { Component } from "react";
+import ERC20Tokens from "./ERC20Tokens";
+import ERC721Tokens from "./ERC721Tokens";
+import avalanche from "../anvil/network-imgs/avalanche.png";
+import binance from "../anvil/network-imgs/binance.png";
+import ethereum from "../anvil/network-imgs/ethereum.png";
+import polygon from "../anvil/network-imgs/polygon.png";
 
-import './Home.css';
+import "./Home.css";
 
-const {
-  setDefaultStorage
-} = require('../anvil/network-configs/utils');
+const { setDefaultStorage } = require("../anvil/network-configs/utils");
 
 const {
   getMainnetERC20ContractStorages,
   getMainnetERC721ContractStorages,
   MAINNET_CONFIG,
-} = require('../anvil/network-configs/mainnet');
+} = require("../anvil/network-configs/mainnet");
 
 const {
   getPolygonERC20ContractStorages,
   getPolygonERC721ContractStorages,
   POLYGON_CONFIG,
-} = require('../anvil/network-configs/polygon');
+} = require("../anvil/network-configs/polygon");
 
-const DEFAULT_SRP = "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
+const DEFAULT_SRP =
+  "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
 
 const NETWORKS = {
   Mainnet: {
@@ -40,37 +39,36 @@ const NETWORKS = {
     img: polygon,
   },
   Avalanche: {
-    config: '',
-    erc20Contracts: '',
-    erc721Contracts: '',
+    config: "",
+    erc20Contracts: "",
+    erc721Contracts: "",
     img: avalanche,
   },
   Binance: {
-    config: '',
-    erc20Contracts: '',
-    erc721Contracts: '',
+    config: "",
+    erc20Contracts: "",
+    erc721Contracts: "",
     img: binance,
   },
-}
-
+};
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       networks: [
-        { name: 'Mainnet', started: false },
-        { name: 'Polygon', started: false },
-        { name: 'Avalanche', started: false },
-        { name: 'Binance', started: false },
+        { name: "Mainnet", started: false },
+        { name: "Polygon", started: false },
+        { name: "Avalanche", started: false },
+        { name: "Binance", started: false },
       ],
       accounts: [],
       accountsSeeded: {},
-      customAccountAddress: '',
+      customAccountAddress: "",
       customAccountSeeded: false,
-      erc721Address: '',
+      erc721Address: "",
       erc721AddressSeeded: false,
-    }
+    };
     this.startNetwork = this.startNetwork.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccountsERC20 = this.seedAccountsERC20.bind(this);
@@ -95,9 +93,9 @@ class Home extends Component {
         return;
       }
       console.log("starting anvil server from home.js");
-      await this.props.startServer(network.config)
-      console.log('Anvil server started successfully.');
-      const updatedNetworks = this.state.networks.map(network => {
+      await this.props.startServer(network.config);
+      console.log("Anvil server started successfully.");
+      const updatedNetworks = this.state.networks.map((network) => {
         if (network.name === networkName) {
           return { ...network, started: true };
         }
@@ -105,18 +103,19 @@ class Home extends Component {
       });
       this.setState({ networks: updatedNetworks });
     } catch (error) {
-      console.error('Error connecting to Anvil:', error);
-  }};
+      console.error("Error connecting to Anvil:", error);
+    }
+  };
 
   getAccounts = async () => {
     try {
       const accounts = await this.props.anvil.getAccounts();
       this.setState({ accounts });
-      console.log('Accounts set:', accounts);
+      console.log("Accounts set:", accounts);
     } catch (error) {
-      console.error('Error getting accounts:', error);
+      console.error("Error getting accounts:", error);
     }
-  }
+  };
 
   seedAccountsERC20 = async (networkName) => {
     try {
@@ -130,11 +129,11 @@ class Home extends Component {
         accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
       this.setState({ accountsSeeded });
-      console.log('Accounts seeded:', accountsSeeded);
+      console.log("Accounts seeded:", accountsSeeded);
     } catch (error) {
-      console.error('Error seeding accounts:', error);
+      console.error("Error seeding accounts:", error);
     }
-  }
+  };
 
   handleCustomAccountChange(event) {
     this.setState({ customAccountAddress: event.target.value });
@@ -147,38 +146,48 @@ class Home extends Component {
   seedERC20CustomAccount(networkName) {
     const { customAccountAddress } = this.state;
     const network = NETWORKS[networkName];
-    if (customAccountAddress.trim() !== '') {
-      const addressWithoutPrefix = customAccountAddress.substring(2).toLowerCase();
+    if (customAccountAddress.trim() !== "") {
+      const addressWithoutPrefix = customAccountAddress
+        .substring(2)
+        .toLowerCase();
       const contracts = network.erc20Contracts(addressWithoutPrefix);
       setDefaultStorage(this.props.anvil, customAccountAddress, contracts)
         .then(() => {
           this.setState({ customAccountSeeded: true });
-          console.log(`Custom account ${customAccountAddress} seeded successfully.`);
+          console.log(
+            `Custom account ${customAccountAddress} seeded successfully.`
+          );
         })
-        .catch(error => {
-          console.error(`Error seeding custom account ${customAccountAddress}:`, error);
+        .catch((error) => {
+          console.error(
+            `Error seeding custom account ${customAccountAddress}:`,
+            error
+          );
         });
     } else {
-      console.error('Custom account address is required.');
+      console.error("Custom account address is required.");
     }
   }
 
   seedERC721CustomAccount(networkName) {
     const { erc721Address } = this.state;
     const network = NETWORKS[networkName];
-    if (erc721Address.trim() !== '') {
-      const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();      
+    if (erc721Address.trim() !== "") {
+      const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();
       const contracts = network.erc721Contracts(addressWithoutPrefix);
       setDefaultStorage(this.props.anvil, erc721Address, contracts)
         .then(() => {
           this.setState({ erc721AddressSeeded: true });
           console.log(`Custom account ${erc721Address} seeded successfully.`);
         })
-        .catch(error => {
-          console.error(`Error seeding custom account ${erc721Address}:`, error);
+        .catch((error) => {
+          console.error(
+            `Error seeding custom account ${erc721Address}:`,
+            error
+          );
         });
     } else {
-      console.error('Custom account address is required.');
+      console.error("Custom account address is required.");
     }
   }
 
@@ -188,14 +197,14 @@ class Home extends Component {
       console.log(`Balance of ${address}:`, balance);
       return balance;
     } catch (error) {
-      console.error('Error getting balance:', error);
+      console.error("Error getting balance:", error);
     }
-  }
+  };
 
   render() {
     const { anvil } = this.props;
 
-    const { 
+    const {
       networks,
       accounts,
       accountsSeeded,
@@ -209,25 +218,38 @@ class Home extends Component {
       <div className="Home">
         {!anvil ? (
           <section className="connect-section">
-            <h1>Minets!</h1>
-            {networks.map(network => (
+            {networks.map((network) => (
               <div className="network" key={network.name}>
-                <img src={NETWORKS[network.name].img} alt={network.name} />
-                <h2>{network.name}</h2>
-                <button className="connect-btn" onClick={() => this.startNetwork(network.name)}>
-                  Spin up {network.name}!
+                <button
+                  className="btn-outline"
+                  onClick={() => this.startNetwork(network.name)}
+                >
+                  <span className="btn-content">
+                    <span className="img-wrap">
+                      <img
+                        src={NETWORKS[network.name].img}
+                        alt={network.name}
+                      />
+                    </span>
+                    <span className="network-name">
+                      Spin up {network.name}!
+                    </span>
+                  </span>
                 </button>
               </div>
             ))}
-            <h2>More Networks to Come!</h2>
+            <h2>More networkings coming soon!</h2>
           </section>
         ) : (
-          <section>
-            {networks.map(network => (
+          <section className="card">
+            {networks.map((network) => (
               <div key={network.name}>
-                {network.started ? 
-                <p>{network.name} with chainId {network.chainId} Running on port {network.port}</p>
-                : null}
+                {network.started ? (
+                  <p>
+                    {network.name} with chainId {network.chainId} Running on
+                    port {network.port}
+                  </p>
+                ) : null}
               </div>
             ))}
 
@@ -236,26 +258,33 @@ class Home extends Component {
             <table>
               <tbody>
                 <tr>
-                    <th>Account</th>
-                    <th>Balance</th>
+                  <th>Account</th>
+                  <th>Balance</th>
                 </tr>
                 {accounts.map((account, index) => {
-                    return (
-                        <tr key={index}>
-                            <td>{account}</td>
-                            <td>{accountsSeeded[account]}</td>
-                        </tr>
-                    )
+                  return (
+                    <tr key={index}>
+                      <td>{account}</td>
+                      <td>{accountsSeeded[account]}</td>
+                    </tr>
+                  );
                 })}
               </tbody>
             </table>
             <ERC20Tokens />
             <div className="custom-account">
-              <button className="seed-btn" onClick={() => this.seedAccountsERC20(networks.find(network => network.started).name)}>
+              <button
+                className="btn"
+                onClick={() =>
+                  this.seedAccountsERC20(
+                    networks.find((network) => network.started).name
+                  )
+                }
+              >
                 Seed All Accounts
               </button>
             </div>
-            
+
             <div className="custom-account">
               <input
                 type="text"
@@ -263,8 +292,21 @@ class Home extends Component {
                 onChange={this.handleCustomAccountChange}
                 placeholder="Enter custom account address"
               />
-              <button onClick={() => this.seedERC20CustomAccount(networks.find(network => network.started).name)}>Seed Custom Account</button>
-              {customAccountSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
+              <button
+                className="btn"
+                onClick={() =>
+                  this.seedERC20CustomAccount(
+                    networks.find((network) => network.started).name
+                  )
+                }
+              >
+                Seed Custom Account
+              </button>
+              {customAccountSeeded && (
+                <span style={{ color: "#4CE0B3" }}>
+                  Custom account seeded successfully.
+                </span>
+              )}
             </div>
             <ERC721Tokens />
             <div className="custom-account">
@@ -274,14 +316,25 @@ class Home extends Component {
                 onChange={this.handleAccountERC721Change}
                 placeholder="Enter custom account address"
               />
-              <button onClick={() => this.seedERC721CustomAccount(networks.find(network => network.started).name)}>Seed Custom Account</button>
-              {erc721AddressSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
+              <button
+                onClick={() =>
+                  this.seedERC721CustomAccount(
+                    networks.find((network) => network.started).name
+                  )
+                }
+              >
+                Seed Custom Account
+              </button>
+              {erc721AddressSeeded && (
+                <span style={{ color: "#4CE0B3" }}>
+                  Custom account seeded successfully.
+                </span>
+              )}
             </div>
-
           </section>
         )}
       </div>
     );
   }
-};
+}
 export default Home;

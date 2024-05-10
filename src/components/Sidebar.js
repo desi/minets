@@ -1,23 +1,41 @@
 // Sidebar.js
-import React from "react";
-import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Sidebar.css";
 
-function Sidebar() {
+function Sidebar({ anvil, stopServer }) {
   return (
-    <div className="sidebar">
-      <ul>
-        <li>
-          <Link to="/main_window">Home</Link>
-        </li>
-        <li>
-          <Link to="/contract-layout">Storage Laboratory</Link>
-        </li>
-        <li>
-          <Link to="/builds-layout">Builds</Link>
-        </li>
-      </ul>
-    </div>
+    <header className="sidebar">
+      <nav>
+        <Link className="logo" to="/main_window">
+          Minets!
+        </Link>
+        <div className="links">
+          <div>
+            <Link className="link" to="/contract-layout">
+              Storage Laboratory
+            </Link>
+          </div>
+          <div>
+            <Link className="link" to="/builds-layout">
+              Builds
+            </Link>
+          </div>
+        </div>
+      </nav>
+      <div className="anvil">
+        {/* Render the "Stop Server" button if Anvil is running */}
+        {anvil && (
+          <button className="stop-btn" onClick={stopServer}>
+            Stop Server
+          </button>
+        )}
+        <div className={`status ${anvil ? "on" : "off"}`}>
+          <span>Anvil status:</span>
+          <div className={anvil ? "ball-green" : "ball-red"} />
+        </div>
+      </div>
+    </header>
   );
 }
 

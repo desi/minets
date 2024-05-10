@@ -1,34 +1,8 @@
-.Home {
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 250px;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
-}
-
-.Home h1 {
-  margin: 0;
-  font-weight: 300;
-  font-size: 50px;
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
-
 .Home h2 {
-  margin-top: 90px;
-  font-weight: 300;
-  font-size: 40px;
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: #6c757d;
 }
-
-.Home p {
-  margin-top: 90px;
-  font-weight: 300;
-  font-size: 50px;
-  font-weight: 300;
-}
-
 
 .Home table {
   width: 100%;
@@ -39,14 +13,13 @@
   font-weight: 300;
 }
 
-.Home table tr{
+.Home table tr {
   height: 60px;
 }
 
-.Home table td{
+.Home table td {
   padding-left: 40px;
 }
-
 
 .Home tr:nth-child(even) {
   background-color: #807d7d;
@@ -54,33 +27,21 @@
 }
 
 .Home .connect-section {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  min-height: 50vh;
-  min-width: 40vh;
-  max-width: 54vh;
+  margin-top: 2rem;
+  min-width: 50vw;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 1rem;
+  background: #f7f7f7;
+  box-shadow: 9px 9px 18px #e6e6e6, -9px -9px 18px #ffffff;
   text-align: center;
 }
 
-.Home .connect-btn {
-  background-color: #FF6B8B;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.Home .connect-btn:hover {
-  background-color: #FF8FA3;
-}
-
-.Home .seed-btn {
-  background-color: #3F8EFC;
+/* .Home .seed-btn {
+  background-color: #3f8efc;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -92,12 +53,12 @@
 }
 
 .Home .seed-btn:hover {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: #fff;
-}
+} */
 
 .Home .disconnect-btn {
-  background-color: #FF6B8B;
+  background-color: #ff6b8b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -109,12 +70,12 @@
 }
 
 .Home .disconnect-btn:hover {
-  background-color: #FF8FA3;
+  background-color: #ff8fa3;
   color: #fff;
 }
 
 .Home .add-network-btn {
-  background-color: #3F8EFC;;
+  background-color: #3f8efc;
   color: black;
   border: none;
   padding: 10px 20px;
@@ -126,7 +87,7 @@
 }
 
 .Home .add-network-btn:hover {
-  background-color: #3F8EFC;
+  background-color: #3f8efc;
   color: #fff;
 }
 
@@ -144,7 +105,6 @@
   padding-bottom: 15px;
 }
 
-
 .Home .custom-account {
   display: flex;
   flex-direction: column;
@@ -161,41 +121,27 @@
   font-size: 20px;
 }
 
-.Home .custom-account button {
-  background-color: #3F8EFC;;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  font-size: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-  margin-bottom: 20px;
-}
-
-.Home .custom-account button:hover {
-  background-color: #3F8EFC;
-  color: #fff;
+.network-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
 }
 
 .Home img {
-  width: 100px;
-  margin: 25px;
-  margin-right: 50px;
+  width: 2rem;
+  height: auto;
 }
 
 .Home .network {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
 }
 
 .Home .network h2 {
-  margin-right: 50px;
-  font-size: 30px;
+  font-size: 1.25rem;
   justify-content: center;
 }
 
