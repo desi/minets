@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import axios from "axios";
 import './Builds.css';
-import Markdown from 'react-markdown'
+import ChromeInstructions from './ChromeInstructions';
 
 
 class Builds extends Component {
@@ -14,8 +13,6 @@ class Builds extends Component {
       latestCommitSHA: '',
       buildsFetched: false,
       metamaskBotComment: '',
-      chromeCustomBuildInstructions: '',
-      firefoxCustomBuildInstructions: '',
     };
     this.getBuildsFromGithub = this.getBuildsFromGithub.bind(this);
   }
@@ -47,20 +44,12 @@ class Builds extends Component {
         const metamaskBotComment = comments.data.find(comment => comment.user.login === 'metamaskbot');
         this.setState({ metamaskBotComment: metamaskBotComment.body });
       });
-      await this.getCustomBuildInstructions();
       this.setState({ buildsFetched: true });
     } catch (error) {
       console.error('Error fetching builds:', error);
   }};
 
-  getCustomBuildInstructions = async () => {
-    //TODO: consider just building the instructions into the app and don't pull the instructions from github
-      const url = 'https://raw.githubusercontent.com/MetaMask/metamask-extension/develop/docs/add-to-chrome.md';
-      await axios.get(url)
-      .then((response) => {
-        this.setState({ chromeCustomBuildInstructions: response.data });
-      });
-  };
+
 
   render() {
     const { pr,
@@ -72,23 +61,21 @@ class Builds extends Component {
     const safeMMBotHTML = DOMPurify.sanitize(metamaskBotComment);
 
     return (
-      <div className="Builds">
+      <section className="card">
         {!buildsFetched ? (
-          <button className="builds-btn" onClick={this.getBuildsFromGithub}>
-            Fetch Builds
+          <button className="btn-outline" onClick={this.getBuildsFromGithub}>
+            Fetch Latest Builds
           </button>
         ) : (
           <div>
+            <h2>Builds from the latest commit!</h2>
             <p>PR: {pr}</p>
             <p>Latest Commit: {latestCommitSHA}</p>
             <p><div dangerouslySetInnerHTML={{ __html: safeMMBotHTML }} /></p>
-
-            <p>INSTRUCTIONS FOR IMPORTING INTO METAMASK</p> 
-            <p><Markdown>{chromeCustomBuildInstructions}</Markdown></p>
           </div>
-          )
-        }
-      </div>
+        )}
+        < ChromeInstructions />
+      </section>
     );
   };
 };
