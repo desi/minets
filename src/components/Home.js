@@ -24,8 +24,6 @@ const {
   POLYGON_CONFIG,
 } = require('../anvil/network-configs/polygon');
 
-const LocalNetwork = require('../anvil/anvil-setup');
-
 const DEFAULT_SRP = "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
 
 const NETWORKS = {
@@ -55,7 +53,6 @@ const NETWORKS = {
   },
 }
 
-let anvil;
 
 class Home extends Component {
   constructor(props) {
@@ -85,6 +82,12 @@ class Home extends Component {
     this.handleAccountERC721Change = this.handleAccountERC721Change.bind(this);
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.anvil !== this.props.anvil && this.props.anvil) {
+      await this.getAccounts();
+    }
+  }
+
   startNetwork = async (networkName) => {
     try {
       const network = NETWORKS[networkName];
@@ -93,10 +96,8 @@ class Home extends Component {
         return;
       }
       console.log("starting anvil server from home.js");
-      anvil = new LocalNetwork();
-      await anvil.start(network.config);
+      await this.props.startServer(network.config)
       console.log('Anvil server started successfully.');
-      await this.getAccounts(anvil);
       const updatedNetworks = this.state.networks.map(network => {
         if (network.name === networkName) {
           return { ...network, started: true };
@@ -110,7 +111,7 @@ class Home extends Component {
 
   getAccounts = async () => {
     try {
-      const accounts = await anvil.getAccounts();
+      const accounts = await this.props.anvil.getAccounts();
       this.setState({ accounts });
       console.log('Accounts set:', accounts);
     } catch (error) {
@@ -126,7 +127,7 @@ class Home extends Component {
       for (const account of accounts) {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
         const contracts = network.erc20Contracts(addressWithoutPrefix);
-        await setDefaultStorage(anvil, account, contracts);
+        await setDefaultStorage(this.props.anvil, account, contracts);
         accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
       this.setState({ accountsSeeded });
@@ -150,7 +151,7 @@ class Home extends Component {
     if (customAccountAddress.trim() !== '') {
       const addressWithoutPrefix = customAccountAddress.substring(2).toLowerCase();
       const contracts = network.erc20Contracts(addressWithoutPrefix);
-      setDefaultStorage(anvil, customAccountAddress, contracts)
+      setDefaultStorage(this.props.anvil, customAccountAddress, contracts)
         .then(() => {
           this.setState({ customAccountSeeded: true });
           console.log(`Custom account ${customAccountAddress} seeded successfully.`);
@@ -169,7 +170,7 @@ class Home extends Component {
     if (erc721Address.trim() !== '') {
       const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();      
       const contracts = network.erc721Contracts(addressWithoutPrefix);
-      setDefaultStorage(anvil, erc721Address, contracts)
+      setDefaultStorage(this.props.anvil, erc721Address, contracts)
         .then(() => {
           this.setState({ erc721AddressSeeded: true });
           console.log(`Custom account ${erc721Address} seeded successfully.`);
@@ -184,8 +185,7 @@ class Home extends Component {
 
   stopNetwork = async () => {
     try {
-      await anvil.quit();
-      console.log('Anvil server stopped successfully.');
+      await this.props.stopServer()
       this.setState({ networks: this.state.networks.map(network => ({ ...network, started: false })), accounts: [] });
     } catch (error) {
       console.error('Error stopping Anvil:', error);
@@ -194,7 +194,7 @@ class Home extends Component {
 
   getBalance = async (address) => {
     try {
-      const balance = await anvil.getBalance(address);
+      const balance = await this.props.anvil.getBalance(address);
       console.log(`Balance of ${address}:`, balance);
       return balance;
     } catch (error) {
@@ -203,6 +203,8 @@ class Home extends Component {
   }
 
   render() {
+    const { anvil } = this.props;
+
     const { 
       networks,
       accounts,
@@ -222,7 +224,7 @@ class Home extends Component {
               <div className="network" key={network.name}>
                 <img src={NETWORKS[network.name].img} alt={network.name} />
                 <h2>{network.name}</h2>
-                <button className="connect-btn" onClick={() => this.startNetwork(network.name, network.config)}>
+                <button className="connect-btn" onClick={() => this.startNetwork(network.name)}>
                   Spin up {network.name}!
                 </button>
               </div>

@@ -1,4 +1,24 @@
-.App {
-  text-align: center;
-  height: 100vmin;
+
+.App .status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.App .status span {
+  margin-right: 10px;
+}
+
+.App .status .ball-green {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ACE4AA;
+}
+
+.App .status .ball-red {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #FF220C;
 }
