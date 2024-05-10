@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import ERC20Tokens from './ERC20Tokens';
 import ERC721Tokens from './ERC721Tokens';
+import avalanche from '../anvil/network-imgs/avalanche.png';
+import binance from '../anvil/network-imgs/binance.png';
+import ethereum from '../anvil/network-imgs/ethereum.png';
+import polygon from '../anvil/network-imgs/polygon.png';
+
 import './Home.css';
 
 const {
@@ -23,57 +28,85 @@ const LocalNetwork = require('../anvil/anvil-setup');
 
 const DEFAULT_SRP = "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
 
+const NETWORKS = {
+  Mainnet: {
+    config: MAINNET_CONFIG,
+    erc20Contracts: getMainnetERC20ContractStorages,
+    erc721Contracts: getMainnetERC721ContractStorages,
+    img: ethereum,
+  },
+  Polygon: {
+    config: POLYGON_CONFIG,
+    erc20Contracts: getPolygonERC20ContractStorages,
+    erc721Contracts: getPolygonERC721ContractStorages,
+    img: polygon,
+  },
+  Avalanche: {
+    config: '',
+    erc20Contracts: '',
+    erc721Contracts: '',
+    img: avalanche,
+  },
+  Binance: {
+    config: '',
+    erc20Contracts: '',
+    erc721Contracts: '',
+    img: binance,
+  },
+}
+
 let anvil;
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      networks: [
+        { name: 'Mainnet', started: false },
+        { name: 'Polygon', started: false },
+        { name: 'Avalanche', started: false },
+        { name: 'Binance', started: false },
+      ],
       accounts: [],
-      mainnetStarted: false,
-      polygonStarted: false,
       accountsSeeded: {},
       customAccountAddress: '',
       customAccountSeeded: false,
       erc721Address: '',
       erc721AddressSeeded: false,
     }
-    this.startMainnet = this.startMainnet.bind(this);
-    this.startPolygon = this.startPolygon.bind(this);
+    this.startNetwork = this.startNetwork.bind(this);
+    this.stopNetwork = this.stopNetwork.bind(this);
     this.getAccounts = this.getAccounts.bind(this);
     this.seedAccountsERC20 = this.seedAccountsERC20.bind(this);
-    this.seedCustomAccountERC721 = this.seedCustomAccountERC721.bind(this);
-    this.stopAnvil = this.stopAnvil.bind(this);
+    this.seedERC20CustomAccount = this.seedERC20CustomAccount.bind(this);
+    this.seedERC721CustomAccount = this.seedERC721CustomAccount.bind(this);
     this.getBalance = this.getBalance.bind(this);
     this.handleCustomAccountChange = this.handleCustomAccountChange.bind(this);
     this.handleAccountERC721Change = this.handleAccountERC721Change.bind(this);
-    this.seedCustomAccount = this.seedCustomAccount.bind(this);
   }
 
-  startMainnet = async () => {
+  startNetwork = async (networkName) => {
     try {
+      const network = NETWORKS[networkName];
+      if (!network) {
+        console.error(`Network ${networkName} not found.`);
+        return;
+      }
       console.log("starting anvil server from home.js");
       anvil = new LocalNetwork();
-      await anvil.start(MAINNET_CONFIG);
+      await anvil.start(network.config);
       console.log('Anvil server started successfully.');
       await this.getAccounts(anvil);
-      this.setState({ mainnetStarted: true });
+      const updatedNetworks = this.state.networks.map(network => {
+        if (network.name === networkName) {
+          return { ...network, started: true };
+        }
+        return network;
+      });
+      this.setState({ networks: updatedNetworks });
     } catch (error) {
       console.error('Error connecting to Anvil:', error);
   }};
-
-  startPolygon = async () => {
-    try {
-      console.log("Starting Polygon Anvil server from home.js");
-      anvil = new LocalNetwork();
-      await anvil.start(POLYGON_CONFIG);
-      console.log('Polygon Anvil server started successfully.');
-      await this.getAccounts(anvil); // You might need to implement getAccounts method for Polygon
-      this.setState({ polygonStarted: true }); // Update the state to indicate Polygon server started
-    } catch (error) {
-      console.error('Error connecting to Polygon Anvil:', error);
-    }
-  };
 
   getAccounts = async () => {
     try {
@@ -85,19 +118,14 @@ class Home extends Component {
     }
   }
 
-  seedAccountsERC20 = async (network) => {
+  seedAccountsERC20 = async (networkName) => {
     try {
       const { accounts } = this.state;
       const accountsSeeded = {};
+      const network = NETWORKS[networkName];
       for (const account of accounts) {
         const addressWithoutPrefix = account.substring(2).toLowerCase();
-        let contracts;
-        if(network == 'polygon') {
-          contracts = getPolygonERC20ContractStorages(addressWithoutPrefix)
-        }
-        if(network == 'mainnet') {
-          contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
-        }
+        const contracts = network.erc20Contracts(addressWithoutPrefix);
         await setDefaultStorage(anvil, account, contracts);
         accountsSeeded[account] = Math.round(await this.getBalance(account));
       }
@@ -116,11 +144,12 @@ class Home extends Component {
     this.setState({ erc721Address: event.target.value });
   }
 
-  seedCustomAccount() {
+  seedERC20CustomAccount(networkName) {
     const { customAccountAddress } = this.state;
+    const network = NETWORKS[networkName];
     if (customAccountAddress.trim() !== '') {
       const addressWithoutPrefix = customAccountAddress.substring(2).toLowerCase();
-      const contracts = getMainnetERC20ContractStorages(addressWithoutPrefix);
+      const contracts = network.erc20Contracts(addressWithoutPrefix);
       setDefaultStorage(anvil, customAccountAddress, contracts)
         .then(() => {
           this.setState({ customAccountSeeded: true });
@@ -134,17 +163,12 @@ class Home extends Component {
     }
   }
 
-  seedCustomAccountERC721(network) {
+  seedERC721CustomAccount(networkName) {
     const { erc721Address } = this.state;
+    const network = NETWORKS[networkName];
     if (erc721Address.trim() !== '') {
       const addressWithoutPrefix = erc721Address.substring(2).toLowerCase();      
-      let contracts;
-        if(network == 'polygon') {
-          contracts = getPolygonERC721ContractStorages(addressWithoutPrefix)
-        }
-        if(network == 'mainnet') {
-          contracts = getMainnetERC721ContractStorages(addressWithoutPrefix);
-        }
+      const contracts = network.erc721Contracts(addressWithoutPrefix);
       setDefaultStorage(anvil, erc721Address, contracts)
         .then(() => {
           this.setState({ erc721AddressSeeded: true });
@@ -158,11 +182,11 @@ class Home extends Component {
     }
   }
 
-  stopAnvil = async () => {
+  stopNetwork = async () => {
     try {
       await anvil.quit();
       console.log('Anvil server stopped successfully.');
-      this.setState({ mainnetStarted: false, accounts: [] });
+      this.setState({ networks: this.state.networks.map(network => ({ ...network, started: false })), accounts: [] });
     } catch (error) {
       console.error('Error stopping Anvil:', error);
     }
@@ -180,8 +204,7 @@ class Home extends Component {
 
   render() {
     const { 
-      mainnetStarted,
-      polygonStarted,
+      networks,
       accounts,
       accountsSeeded,
       customAccountAddress,
@@ -192,25 +215,32 @@ class Home extends Component {
 
     return (
       <div className="Home">
-        {!mainnetStarted && !polygonStarted ? (
+        {!networks.some(network => network.started) ? (
           <section className="connect-section">
             <h1>Minets!</h1>
-            <button className="connect-btn" onClick={this.startMainnet}>
-              Spin up Mainnet!
-            </button>
-              <button className="connect-btn" onClick={this.startPolygon}>
-              Spin up Polygon!
-            </button>
+            {networks.map(network => (
+              <div className="network" key={network.name}>
+                <img src={NETWORKS[network.name].img} alt={network.name} />
+                <h2>{network.name}</h2>
+                <button className="connect-btn" onClick={() => this.startNetwork(network.name, network.config)}>
+                  Spin up {network.name}!
+                </button>
+              </div>
+            ))}
+            <h2>More Networks to Come!</h2>
           </section>
         ) : (
           <section>
-            {mainnetStarted ? 
-            <p>Mainnet with chainId 1 Running on port 8545</p>
-             :
-            <p>Polygon with chainId 137 Running on port 8546</p>}
+            {networks.map(network => (
+              <div key={network.name}>
+                {network.started ? 
+                <p>{network.name} with chainId {network.chainId} Running on port {network.port}</p>
+                : null}
+              </div>
+            ))}
 
             <h3>Default SRP: {DEFAULT_SRP}</h3>
-            <button className="disconnect-btn" onClick={() => this.stopAnvil(anvil)}>
+            <button className="disconnect-btn" onClick={this.stopNetwork}>
               Stop Anvil
             </button>
 
@@ -233,7 +263,7 @@ class Home extends Component {
             </table>
             <ERC20Tokens />
             <div className="custom-account">
-              <button className="seed-btn" onClick={() => this.seedAccountsERC20(mainnetStarted ? 'mainnet' : 'polygon')}>
+              <button className="seed-btn" onClick={() => this.seedAccountsERC20(networks.find(network => network.started).name)}>
                 Seed All Accounts
               </button>
             </div>
@@ -245,7 +275,7 @@ class Home extends Component {
                 onChange={this.handleCustomAccountChange}
                 placeholder="Enter custom account address"
               />
-              <button onClick={this.seedCustomAccount}>Seed Custom Account</button>
+              <button onClick={() => this.seedERC20CustomAccount(networks.find(network => network.started).name)}>Seed Custom Account</button>
               {customAccountSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
             </div>
             <ERC721Tokens />
@@ -256,7 +286,7 @@ class Home extends Component {
                 onChange={this.handleAccountERC721Change}
                 placeholder="Enter custom account address"
               />
-              <button onClick={() => this.seedCustomAccountERC721(mainnetStarted ? 'mainnet' : 'polygon')}>Seed Custom Account</button>
+              <button onClick={() => this.seedERC721CustomAccount(networks.find(network => network.started).name)}>Seed Custom Account</button>
               {erc721AddressSeeded && <span style={{ color: '#4CE0B3' }}>Custom account seeded successfully.</span>}
             </div>
 

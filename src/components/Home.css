@@ -169,3 +169,28 @@
   background-color: #3F8EFC;
   color: #fff;
 }
+
+.Home img {
+  width: 100px;
+  margin: 25px;
+  margin-right: 50px;
+}
+
+.Home .network {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.Home .network h2 {
+  margin-right: 50px;
+  font-size: 30px;
+  justify-content: center;
+}
+
+.Home .network button {
+  justify-content: center;
+  align-items: center;
+}
