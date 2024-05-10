@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { exec } from 'child_process';
 import fs from 'fs';
-import StorageBuilderHelper from './StorageBuilderHelper';
-
+import ValueBuilderHelper from './CustomStorageHelpers/ValueBuilderHelper';
+import SlotBuilderHelper from './CustomStorageHelpers/SlotBuilderHelper';
+import { setCustomStorage } from '../anvil/network-configs/utils';
 import './CustomStorage.css';
-const {
-  setCustomStorageBalanceOf
-} = require('../anvil/network-configs/mainnet')
 
 class CustomStorage extends Component {
   constructor(props) {
@@ -64,15 +62,7 @@ class CustomStorage extends Component {
     });
   }
 
-  handleStorageSubmit(e) {
-    e.preventDefault();
-    const { contractAddress, slot, value } = this.state;
-    setCustomStorageBalanceOf(anvil, contractAddress, slot, value)
-    console.log('Submitting:', contractAddress, slot, value);
-    // Clear form fields
-    this.setState({ contractAddress: '', slot: '', value: '' });
-  }
-
+  // Contract Storage Layout
   handleLayoutChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -83,9 +73,19 @@ class CustomStorage extends Component {
     this.generateContractLayout(contractCode, contractName);
   }
 
-  handleStorageChange(event) {
-    const { name, value } = event.target;
+  // Set Contract Storage
+  handleStorageChange(e) {
+    const { name, value } = e.target;
     this.setState({ [name]: value });
+  }
+
+  async handleStorageSubmit(e) {
+    e.preventDefault();
+    const { contractAddress, slot, value } = this.state;
+    await setCustomStorage(this.props.anvil, contractAddress, slot, value)
+    console.log('Submitting:', contractAddress, slot, value);
+    // Clear form fields
+    this.setState({ contractAddress: '', slot: '', value: '' });
   }
 
   render() {
@@ -108,12 +108,15 @@ class CustomStorage extends Component {
             )}
         </div>
 
-        <h2>Set the Storage values</h2>
-        <p>INSTRUCTIONS GO HERE</p>
+        <h2>Construct your Storage values</h2>
         <div className="customStorageContainer">
-          <div className="customStorage">
-            <form onSubmit={this.handleStorageSubmit}>
-              <h2>Set Slot and Value</h2>
+          <SlotBuilderHelper />
+          <ValueBuilderHelper />
+        </div>
+        <div className='setStorage'>
+          <h2>Set Contract Storage</h2>
+          <form onSubmit={this.handleStorageSubmit}>
+              <h2>Slot and Value</h2>
               <div>
                 <label htmlFor="contractAddress">Contract Address:</label>
                 <input
@@ -126,8 +129,6 @@ class CustomStorage extends Component {
                 />
               </div>
               <div>
-                <p>To construct the slot, we look for which slot number we need to modify in the Storage Layout above.</p>
-                <p>If we are working with a mapping, the slot will take the form of 0's+key+0's+slot_number</p>
                 <label htmlFor="slot">Slot:</label>
                 <input
                   type="text"
@@ -139,8 +140,6 @@ class CustomStorage extends Component {
                 />
               </div>
               <div>
-                <p>Here we set the value we want in hex format, and padded with 0's.</p>
-                <p>Example: if I want to modify the mapping(address=>uint): balanceOf, the value is the unit I want to set</p>
                 <label htmlFor="value">Value:</label>
                 <input
                   type="text"
@@ -151,11 +150,8 @@ class CustomStorage extends Component {
                   required
                 />
               </div>
-              <button type="submit">Set Custom Storage</button>
+              <button type="submit">Set Storage</button>
             </form>
-          </div>
-            
-          <StorageBuilderHelper />
         </div>
       </div>
     );

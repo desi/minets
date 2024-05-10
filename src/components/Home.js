@@ -5,24 +5,21 @@ import avalanche from '../anvil/network-imgs/avalanche.png';
 import binance from '../anvil/network-imgs/binance.png';
 import ethereum from '../anvil/network-imgs/ethereum.png';
 import polygon from '../anvil/network-imgs/polygon.png';
+import { setDefaultStorage } from '../anvil/network-configs/utils';
 
-import './Home.css';
-
-const {
-  setDefaultStorage
-} = require('../anvil/network-configs/utils');
-
-const {
+import {
   getMainnetERC20ContractStorages,
   getMainnetERC721ContractStorages,
   MAINNET_CONFIG,
-} = require('../anvil/network-configs/mainnet');
+} from '../anvil/network-configs/mainnet';
 
-const {
+import {
   getPolygonERC20ContractStorages,
   getPolygonERC721ContractStorages,
   POLYGON_CONFIG,
-} = require('../anvil/network-configs/polygon');
+} from '../anvil/network-configs/polygon';
+
+import './Home.css';
 
 const DEFAULT_SRP = "spread raise short crane omit tent fringe mandate neglect detail suspect cradle";
 
@@ -53,7 +50,6 @@ const NETWORKS = {
   },
 }
 
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -81,6 +77,12 @@ class Home extends Component {
     this.handleAccountERC721Change = this.handleAccountERC721Change.bind(this);
   }
 
+  async componentDidMount() {
+    if (this.props.anvil) {
+      await this.getAccounts();
+    }
+  }
+
   async componentDidUpdate(prevProps) {
     if (prevProps.anvil !== this.props.anvil && this.props.anvil) {
       await this.getAccounts();
@@ -94,9 +96,7 @@ class Home extends Component {
         console.error(`Network ${networkName} not found.`);
         return;
       }
-      console.log("starting anvil server from home.js");
       await this.props.startServer(network.config)
-      console.log('Anvil server started successfully.');
       const updatedNetworks = this.state.networks.map(network => {
         if (network.name === networkName) {
           return { ...network, started: true };

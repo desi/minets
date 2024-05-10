@@ -42,6 +42,8 @@
   "license": "MIT",
   "dependencies": {
     "@ethersproject/keccak256": "^5.7.0",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@viem/anvil": "^0.0.10",
     "axios": "^1.6.8",
     "dompurify": "^3.1.2",
