@@ -46,7 +46,7 @@
   flex-direction: column;
   gap: 1rem;
   background: #f7f7f7;
-  box-shadow: 9px 9px 18px #e6e6e6, -9px -9px 18px #ffffff;
+  box-shadow: 18px 9px 18px #e6e6e6, -12px -9px 18px #ffffff;
   text-align: center;
 }
 

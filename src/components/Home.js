@@ -275,6 +275,7 @@ class Home extends Component {
                 })}
               </tbody>
             </table>
+            <hr />
             <ERC20Tokens />
             <div className="custom-account">
               <button
@@ -312,6 +313,7 @@ class Home extends Component {
                 </span>
               )}
             </div>
+            <hr />
             <ERC721Tokens />
             <div className="custom-account">
               <input

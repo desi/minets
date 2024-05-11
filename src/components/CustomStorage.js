@@ -125,16 +125,17 @@ class CustomStorage extends Component {
             />
           )}
         </div>
-
+        <hr />
         <h2>Construct your Storage values</h2>
         <div className="customStorageContainer">
           <SlotBuilderHelper />
           <ValueBuilderHelper />
         </div>
+        <hr />
         <h2>Set Contract Storage</h2>
-        <div className="setStorage">
+        <div className="setStorage card">
           <form onSubmit={this.handleStorageSubmit}>
-            <h2>Slot and Value</h2>
+            <h3>Slot and Value</h3>
             <div>
               <label htmlFor="contractAddress">Contract Address:</label>
               <input
