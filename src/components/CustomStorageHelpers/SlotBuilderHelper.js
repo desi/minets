@@ -61,7 +61,7 @@ class SlotBuilderHelper extends Component {
 
     return (
       <div className="SlotBuilderHelper card">
-        <h2>Slot Builder Helper</h2>
+        <h3>Slot Builder Helper</h3>
         <div>
           <label htmlFor="intInput">Integer Input:</label>
           <input

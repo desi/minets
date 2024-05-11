@@ -61,7 +61,7 @@ class ValueBuilderHelper extends Component {
 
     return (
       <div className="ValueBuilderHelper card">
-        <h2>Value Builder Helper</h2>
+        <h3>Value Builder Helper</h3>
         <div>
           <label htmlFor="intInput">Integer Input:</label>
           <input
