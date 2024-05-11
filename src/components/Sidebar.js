@@ -11,6 +11,11 @@ function Sidebar({ anvil, stopServer }) {
           Minets!
         </Link>
         <div className="links">
+            <div>
+            <Link className="link" to="/network-inspect">
+              Network Inspector
+            </Link>
+          </div>
           <div>
             <Link className="link" to="/contract-layout">
               Storage Laboratory

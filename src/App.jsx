@@ -5,6 +5,7 @@ import CustomStorage from "./components/CustomStorage";
 import Sidebar from "./components/Sidebar";
 import Builds from "./components/Builds";
 import LocalNetwork from "./anvil/anvil-setup";
+import NetworkInspector from "./components/NetworkInspector";
 
 import "./App.css";
 
@@ -55,6 +56,13 @@ function App() {
               element={<CustomStorage anvil={anvil} />}
             />
             <Route path="/builds-layout" element={<Builds />} />
+            <Route
+              path="/network-inspect"
+              element={
+                <NetworkInspector
+                anvil={anvil}
+              />}
+            />
           </Routes>
         </main>
       </div>
