@@ -32,7 +32,7 @@ class StringEncoderDecoder extends Component {
     const utf8Encoder = new TextEncoder();
     const encodedBytes = utf8Encoder.encode(stringValue);
     const hexValue = encodedBytes.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    const lengthHex = encodedBytes.length.toString(16).padStart(4, '0'); // Convert length to hex and pad to 4 characters
+    const lengthHex = (stringValue.length * 2).toString(16).padStart(2, '0'); // Convert length to hex and pad to 2 characters
     const paddedHexValue = hexValue.padEnd(64, '0'); // Pad the hex value with zeroes to reach 32 bytes
     return '0x' + paddedHexValue + lengthHex;
   };
@@ -94,11 +94,6 @@ class StringEncoderDecoder extends Component {
           placeholder="Enter your hex value"
         />
         <p>Decoded Value: {decodedValue}</p>
-        <FontAwesomeIcon
-            icon={faCopy}
-            className="copy-icon"
-            onClick={() => this.handleCopyClick(decodedValue)}
-          />
         {copied && <span className="copied-message">Value Copied!</span>}
     </div>
     );
