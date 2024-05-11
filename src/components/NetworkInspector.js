@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { setCustomStorage } from "../anvil/network-configs/utils";
+const { hexToString } = require('../anvil/network-configs/utils');
+const { keccak256 } = require('@ethersproject/keccak256');
+import { faCube, faGasPump } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import "./NetworkInspector.css";
 
 class NetworkInspector extends Component {
@@ -44,7 +48,7 @@ class NetworkInspector extends Component {
     const storage = await publicClient.getStorageAt(
       {
         address: contract,
-        slot: storagePos,
+        slot: `${keccak256(hexToString(storagePos))}`,
       }
     );
     this.setState({ storage: storage });
@@ -72,40 +76,45 @@ class NetworkInspector extends Component {
       <div className="NetworkInspector">
         <h1>Network Inspector</h1>
         <p>Make sure that your server is running</p>
-        <div className="data">
-          <h2>Get block number</h2>
-          <p>{blockNumber}</p>
-        </div>
+        <div className="data-container">
+          <div className="data">
+            <h2>
+              <FontAwesomeIcon icon={faCube} />Get block number
+            </h2>
+            <p>{blockNumber}</p>
+          </div>
 
-        <hr />
-        <div className="data">
-          <h2>Gas Price</h2>
-          <p>{gasPrice}</p>
+          <hr />
+          <div className="data">
+            <h2>
+              <FontAwesomeIcon icon={faGasPump} /> Gas Price
+            </h2>
+            <p>{gasPrice}</p>
+          </div>
         </div>
-
          <hr />
          
-      <h2>Get Storage At</h2>
-      <form onSubmit={this.handleGetStorageAt}>
-          <label htmlFor="contractAddress">Contract Address:</label>
-          <input
-            type="text"
-            id="contractAddress"
-            name="contractAddress"
-            value={this.state.contractAddress}
-            onChange={this.handleInputChange}
-          />
-          <label htmlFor="storagePosition">Storage Position:</label>
-          <input
-            type="text"
-            id="storagePosition"
-            name="storagePosition"
-            value={this.state.storagePosition}
-            onChange={this.handleInputChange}
-          />
-          <button type="submit">Get Storage At</button>
-        </form>
-        <p>{storage}</p>
+        <h2>Get Storage At</h2>
+        <form onSubmit={this.handleGetStorageAt}>
+            <label htmlFor="contractAddress">Contract Address:</label>
+            <input
+              type="text"
+              id="contractAddress"
+              name="contractAddress"
+              value={this.state.contractAddress}
+              onChange={this.handleInputChange}
+            />
+            <label htmlFor="storagePosition">Storage Position:</label>
+            <input
+              type="text"
+              id="storagePosition"
+              name="storagePosition"
+              value={this.state.storagePosition}
+              onChange={this.handleInputChange}
+            />
+            <button type="submit">Get Storage At</button>
+          </form>
+          <p>{storage}</p>
 
     </div>
   );

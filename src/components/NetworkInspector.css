@@ -11,6 +11,12 @@
     text-align: center;
   }
 
+  .NetworkInspector .data-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
   .NetworkInspector h1 {
     font-weight: 700;
     font-size: 2rem;
@@ -25,13 +31,9 @@
   
   
   .NetworkInspector .data {
-    margin-top: 2rem;
-    min-width: 50vw;
+    flex: 1;
     padding: 2rem;
     border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
     background: #f7f7f7;
     box-shadow: 18px 9px 18px #e6e6e6, -12px -9px 18px #ffffff;
     text-align: center;
