@@ -11,17 +11,22 @@ class SlotBuilderHelper extends Component {
       intInput: "",
       hexInput: "",
       formattedHexValue: "",
+      keyInput: "",
+      keyPaddedValue: "",
+      concatenatedValue: "",
       copied: false,
+      copiedConcatenated: false,
     };
 
     this.handleCopyClick = this.handleCopyClick.bind(this);
     this.handleIntInputChange = this.handleIntInputChange.bind(this);
+    this.handleKeyInputChange = this.handleKeyInputChange.bind(this);
     this.add18Decimals = this.add18Decimals.bind(this);
   }
 
   handleCopyClick = () => {
-    const { formattedHexValue } = this.state;
-    navigator.clipboard.writeText(formattedHexValue);
+    const { concatenatedValue } = this.state;
+    navigator.clipboard.writeText(concatenatedValue);
     this.setState({ copied: true });
   };
 
@@ -33,6 +38,19 @@ class SlotBuilderHelper extends Component {
       hexInput: hexValue,
       formattedHexValue: this.formatHex(hexValue),
     });
+    this.updateConcatenatedValue(hexValue);
+  };
+
+  handleKeyInputChange = (event) => {
+    const keyInput = event.target.value.replace(/^0x/, '');
+    const keyPaddedValue = this.padKey(keyInput);
+    this.setState({ keyInput, keyPaddedValue });
+    this.updateConcatenatedValue(this.state.hexInput, keyPaddedValue); 
+  };
+
+  updateConcatenatedValue = (hexInput, keyPaddedValue) => {
+    const concatenatedValue = keyPaddedValue + hexInput;
+   this.setState({ concatenatedValue });
   };
 
   convertIntToHex = (intInput) => {
@@ -50,20 +68,42 @@ class SlotBuilderHelper extends Component {
         formattedHexValue: this.formatHex(hexValue),
       };
     });
+    this.updateConcatenatedValue(this.state.hexInput);
   };
 
   formatHex = (hexInput) => {
     return `0x${hexInput}`;
   };
 
+  padKey = (keyInput) => {
+    const expectedLength = 64;
+    const keyWithoutPrefix = keyInput.startsWith("0x") ? keyInput.slice(2) : keyInput;
+    const paddingLength = Math.max(0, expectedLength - keyWithoutPrefix.length);
+    return `${"0".repeat(paddingLength)}${keyWithoutPrefix}`;
+  };
+
+  handleCopyConcatenatedClick = () => {
+    const { concatenatedValue } = this.state;
+    navigator.clipboard.writeText(concatenatedValue);
+    this.setState({ copiedConcatenated: true });
+  };
+
   render() {
-    const { intInput, hexInput, formattedHexValue, copied } = this.state;
+    const {
+      intInput,
+      hexInput,
+      formattedHexValue,
+      keyInput,
+      keyPaddedValue,
+      copied,
+      copiedConcatenated
+    } = this.state;
 
     return (
       <div className="SlotBuilderHelper card">
         <h3>Slot Builder Helper</h3>
         <div>
-          <label htmlFor="intInput">Integer Input:</label>
+          <label htmlFor="intInput">Slot Value:</label>
           <input
             type="text"
             id="intInput"
@@ -71,21 +111,19 @@ class SlotBuilderHelper extends Component {
             value={intInput}
             onChange={this.handleIntInputChange}
           />
-          <button onClick={this.add18Decimals}>Add 18 Decimals</button>
         </div>
         <div>
-          <label htmlFor="hexInput">Hex Input:</label>
+          <label htmlFor="hexInput">Slot Value Padded:</label>
           <input
             type="text"
             id="hexInput"
             name="hexInput"
             value={hexInput}
-            onChange={() => {}}
             readOnly
           />
         </div>
         <div>
-          <label htmlFor="formattedHexValue">Formatted Hex Value:</label>
+          <label htmlFor="formattedHexValue">Formatted Slot Value:</label>
           <input
             type="text"
             id="formattedHexValue"
@@ -100,9 +138,48 @@ class SlotBuilderHelper extends Component {
           />
           {copied && <span className="copied-message">Value Copied!</span>}
         </div>
+        <hr />
+        <div>
+          <h2>Slot and Key</h2>
+          <div>
+            <label htmlFor="keyInput">Key:</label>
+            <input
+              type="text"
+              id="keyInput"
+              name="keyInput"
+              value={keyInput}
+              onChange={this.handleKeyInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="keyPaddedValue">Key Value Padded:</label>
+            <p id="keyPaddedValue">{keyPaddedValue}</p>
+          </div>
+          <div>
+            <h2>Formatted Slot and Key Value:</h2>
+
+            <div>
+          <label htmlFor="formattedSlotAndKeyValue">Formatted Slot and Key Value:</label>
+          <input
+            type="text"
+            id="formattedSlotAndKeyValue"
+            name="formattedSlotAndKeyValue"
+            value={this.state.concatenatedValue}
+            readOnly
+          />
+          <FontAwesomeIcon
+            icon={faCopy}
+            className="copy-icon"
+            onClick={this.handleCopyConcatenatedClick} // Add onClick event handler
+          />
+          {copiedConcatenated && <span className="copied-message">Value Copied!</span>}
+          </div>
+        </div>
       </div>
+    </div>
     );
   }
 }
+
 
 export default SlotBuilderHelper;

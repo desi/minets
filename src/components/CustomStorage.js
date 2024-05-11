@@ -174,10 +174,10 @@ class CustomStorage extends Component {
         <hr />
 
         <div className="card">
-              <h2>Strings</h2>
+              <h2>Strings Helper</h2>
               <StringEncoderDecoder />
         </div>
-        
+
         <div className="getSetStorageContainer">
           <div className="setStorage card">
             <h2>Set Contract Storage</h2>
