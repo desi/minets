@@ -99,7 +99,22 @@
   gap: 2rem;
 }
 
+.getSetStorageContainer {
+    display: flex;
+    justify-content: space-between; 
+  }
+
+  .setStorage {
+    flex: 1;
+    margin-right: 10px;
+  }
+
 .customStorage {
   flex: 1;
   margin-right: 20px;
+}
+
+.storageResult {
+    align-items: center;
+    justify-content: center;
 }

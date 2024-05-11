@@ -1,0 +1,38 @@
+.StringEncoderDecoder {
+  width: 100%;
+}
+
+.StringEncoderDecoder h2 {
+  margin-bottom: 10px;
+}
+
+.StringEncoderDecoder div {
+  margin-bottom: 10px;
+}
+
+.StringEncoderDecoder input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #2c3e50;
+  font-size: 15px;
+  overflow-wrap: break-word;
+}
+
+.StringEncoderDecoder input[name="formattedHexValue"] {
+  font-weight: bold;
+}
+
+.StringEncoderDecoder input[name="formattedHexValue"]:not([value=""]) {
+  background-color: #ace4aa;
+}
+
+.StringEncoderDecoder input[name="hexInput"],
+.StringEncoderDecoder input[name="formattedHexValue"] {
+  height: 50px;
+}
+

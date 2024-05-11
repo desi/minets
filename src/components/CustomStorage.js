@@ -4,6 +4,9 @@ import fs from "fs";
 import ValueBuilderHelper from "./CustomStorageHelpers/ValueBuilderHelper";
 import SlotBuilderHelper from "./CustomStorageHelpers/SlotBuilderHelper";
 import { setCustomStorage } from "../anvil/network-configs/utils";
+const { hexToString } = require('../anvil/network-configs/utils');
+const { keccak256 } = require('@ethersproject/keccak256');
+import StringEncoderDecoder from "./CustomStorageHelpers/StringEncoderDecoder";
 import "./CustomStorage.css";
 
 class CustomStorage extends Component {
@@ -15,14 +18,20 @@ class CustomStorage extends Component {
       svgContent: "",
       contractAddress: "",
       slot: "",
-      value:
-        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      value: "",
+      storage: "",
+      getContractAddress: "",
+      storagePosition: "",
     };
     this.generateContractLayout = this.generateContractLayout.bind(this);
     this.handleLayoutChange = this.handleLayoutChange.bind(this);
     this.handleLayoutSubmit = this.handleLayoutSubmit.bind(this);
     this.handleStorageChange = this.handleStorageChange.bind(this);
     this.handleStorageSubmit = this.handleStorageSubmit.bind(this);
+    // get storage
+    this.getStorageAt = this.getStorageAt.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleGetStorageAt = this.handleGetStorageAt.bind(this);
   }
 
   generateContractLayout(contractCode, contractName) {
@@ -92,8 +101,39 @@ class CustomStorage extends Component {
     this.setState({ contractAddress: "", slot: "", value: "" });
   }
 
+
+  // READ STORAGE SECTION
+  async getStorageAt(contract, storagePos) {
+    const publicClient = this.props.anvil.getProvider().publicClient;
+    const storage = await publicClient.getStorageAt(
+      {
+        address: contract,
+        slot: storagePos,
+      }
+    );
+    this.setState({ storage: storage });
+  }
+
+  handleInputChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  handleGetStorageAt = async (event) => {
+    event.preventDefault();
+    const { getContractAddress, storagePosition } = this.state;
+    await this.getStorageAt(getContractAddress, storagePosition);
+  }
+
   render() {
-    const { svgContent, contractAddress, slot, value } = this.state;
+    const {
+      svgContent,
+      contractAddress,
+      slot,
+      value,
+      storage,
+      getContractAddress,
+    } = this.state;
 
     return (
       <div className="CustomStorage">
@@ -132,45 +172,78 @@ class CustomStorage extends Component {
           <ValueBuilderHelper />
         </div>
         <hr />
-        <h2>Set Contract Storage</h2>
-        <div className="setStorage card">
-          <form onSubmit={this.handleStorageSubmit}>
-            <h3>Slot and Value</h3>
-            <div>
-              <label htmlFor="contractAddress">Contract Address:</label>
-              <input
-                type="text"
-                id="contractAddress"
-                name="contractAddress"
-                value={contractAddress}
-                onChange={this.handleStorageChange}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="slot">Slot:</label>
-              <input
-                type="text"
-                id="slot"
-                name="slot"
-                value={slot}
-                onChange={this.handleStorageChange}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="value">Value:</label>
-              <input
-                type="text"
-                id="value"
-                name="value"
-                value={value}
-                onChange={this.handleStorageChange}
-                required
-              />
-            </div>
-            <button type="submit">Set Storage</button>
-          </form>
+
+        <div className="card">
+              <h2>Strings</h2>
+              <StringEncoderDecoder />
+        </div>
+        
+        <div className="getSetStorageContainer">
+          <div className="setStorage card">
+            <h2>Set Contract Storage</h2>
+            <form onSubmit={this.handleStorageSubmit}>
+              <h3>Slot and Value</h3>
+              <div>
+                <label htmlFor="contractAddress">Contract Address:</label>
+                <input
+                  type="text"
+                  id="contractAddress"
+                  name="contractAddress"
+                  value={contractAddress}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="slot">Slot:</label>
+                <input
+                  type="text"
+                  id="slot"
+                  name="slot"
+                  value={slot}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="value">Value:</label>
+                <input
+                  type="text"
+                  id="value"
+                  name="value"
+                  value={value}
+                  onChange={this.handleStorageChange}
+                  required
+                />
+              </div>
+              <button type="submit">Set Storage</button>
+            </form>
+          </div>
+          <div className="setStorage card">
+            <h2>Get Storage At</h2>
+            <form onSubmit={this.handleGetStorageAt}>
+                <label htmlFor="getContractAddress">Contract Address:</label>
+                <input
+                  type="text"
+                  id="getContractAddress"
+                  name="getContractAddress"
+                  value={this.state.getContractAddress}
+                  onChange={this.handleInputChange}
+                />
+                <label htmlFor="storagePosition">Storage Position:</label>
+                <input
+                  type="text"
+                  id="storagePosition"
+                  name="storagePosition"
+                  value={this.state.storagePosition}
+                  onChange={this.handleInputChange}
+                />
+                <button type="submit">Get Storage At</button>
+              </form>
+              <h3 className="storageResult">Storage Result:</h3>
+              <p className="storageResult">{storage}</p>
+          </div>
+          <hr />
         </div>
       </div>
     );
